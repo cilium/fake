@@ -1,0 +1,43 @@
+name: Run static checks and unit tests
+
+on:
+  push:
+    branches:
+      - master
+      - v*
+  pull_request:
+    branches:
+    - master
+    - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Go
+      uses: actions/setup-go@v1
+      with:
+        go-version: '1.15.7'
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build
+      run: make
+    - name: Run static checks
+      run: make check
+    - name: Run unit tests
+      run: make test
+  go-mod:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Go
+      uses: actions/setup-go@v1
+      with:
+        go-version: '1.15.7'
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Check module vendoring
+      run: |
+        go mod tidy
+        go mod vendor
+        go mod verify
+        git diff --exit-code
