@@ -4,7 +4,10 @@ go 1.15
 
 require (
 	github.com/cilium/cilium v1.9.3
+	github.com/cilium/hubble v0.7.1
 	github.com/golang/protobuf v1.4.3
+	github.com/spf13/cobra v1.1.1
+	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.6.1
 	golang.org/x/net v0.0.0-20201110031124-69a78807bb2b
 	google.golang.org/protobuf v1.25.0
