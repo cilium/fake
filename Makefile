@@ -23,7 +23,23 @@ test:
 bench:
 	GOPRIVATE=github.com/isovalent CGO_ENABLED=1 go test -timeout=30s -bench=. $$($(GO) list ./...)
 
+check: gofmt ineffassign lint staticcheck vet
+
+gofmt:
+	@source="$$(find . -type f -name '*.go' -not -path './vendor/*')"; \
+	unformatted="$$(gofmt -l $$source)"; \
+	if [ -n "$$unformatted" ]; then echo "unformatted source code:" && echo "$$unformatted" && exit 1; fi
+
+ineffassign:
+	$(GO) run ./vendor/github.com/gordonklaus/ineffassign .
+
+lint:
+	$(GO) run ./vendor/golang.org/x/lint/golint -set_exit_status $$($(GO) list ./...)
+
+staticcheck:
+	$(GO) run ./vendor/honnef.co/go/tools/cmd/staticcheck -checks="all,-ST1000" $$($(GO) list ./...)
+
 vet:
 	$(GO) vet $$($(GO) list ./...)
 
-.PHONY: all $(TARGET) install clean test bench vet
+.PHONY: all $(TARGET) install clean test bench check gofmt ineffassign lint staticcheck vet
