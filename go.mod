@@ -3,7 +3,7 @@ module github.com/isovalent/fake
 go 1.15
 
 require (
-	github.com/cilium/cilium v1.9.3
+	github.com/cilium/cilium v1.9.4
 	github.com/cilium/hubble v0.7.1
 	github.com/golang/protobuf v1.4.3
 	github.com/gordonklaus/ineffassign v0.0.0-20200809085317-e36bfde3bb78
