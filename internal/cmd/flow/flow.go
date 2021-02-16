@@ -58,8 +58,8 @@ func New() *cobra.Command {
 			if ((srcIP.To4() == nil) && (dstIP.To4() != nil)) || ((srcIP.To4() != nil) && (dstIP.To4() == nil)) {
 				return errors.New("source and destination CIDR IP version mismatch")
 			}
-			if srcIP.To4() != nil {
-				opts.ipVersion = flowpb.IPVersion_IPv4
+			if srcIP.To4() == nil {
+				opts.ipVersion = flowpb.IPVersion_IPv6
 			}
 
 			var printerOpts []printer.Option
