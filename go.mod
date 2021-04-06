@@ -1,6 +1,6 @@
 module github.com/isovalent/fake
 
-go 1.15
+go 1.16
 
 require (
 	github.com/cilium/cilium v1.9.4
