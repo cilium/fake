@@ -13,17 +13,17 @@ package fake
 import (
 	"math/rand"
 
-	"github.com/golang/protobuf/ptypes/wrappers"
+	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // IsReply returns either nil, or a wrapped boolean value reprenting true, or a
 // wrapped boolean value reprenting false, with equal probability.
-func IsReply() *wrappers.BoolValue {
+func IsReply() *wrapperspb.BoolValue {
 	switch rand.Intn(3) {
 	case 0:
-		return &wrappers.BoolValue{Value: false}
+		return &wrapperspb.BoolValue{Value: false}
 	case 1:
-		return &wrappers.BoolValue{Value: true}
+		return &wrapperspb.BoolValue{Value: true}
 	default:
 		return nil
 	}

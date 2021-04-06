@@ -5,7 +5,6 @@ go 1.16
 require (
 	github.com/cilium/cilium v1.10.0-rc0.0.20210406145708-38ebbf877cac
 	github.com/cilium/hubble v0.5.1-0.20210406135808-1c2aa23d3051
-	github.com/golang/protobuf v1.5.0
 	github.com/gordonklaus/ineffassign v0.0.0-20210209182638-d0e41b2fc8ed
 	github.com/spf13/cobra v1.1.3
 	github.com/spf13/pflag v1.0.6-0.20200504143853-81378bbcd8a1
