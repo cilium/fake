@@ -3,25 +3,21 @@ module github.com/isovalent/fake
 go 1.16
 
 require (
-	github.com/cilium/cilium v1.9.4
-	github.com/cilium/hubble v0.7.1
-	github.com/golang/protobuf v1.4.3
-	github.com/gordonklaus/ineffassign v0.0.0-20200809085317-e36bfde3bb78
-	github.com/spf13/cobra v1.1.1
-	github.com/spf13/pflag v1.0.5
-	github.com/stretchr/testify v1.6.1
-	golang.org/x/lint v0.0.0-20191125180803-fdd1cda4f05f
-	golang.org/x/net v0.0.0-20201110031124-69a78807bb2b
-	google.golang.org/protobuf v1.25.0
-	honnef.co/go/tools v0.0.1-2020.1.6
+	github.com/cilium/cilium v1.10.0-rc0.0.20210406145708-38ebbf877cac
+	github.com/cilium/hubble v0.5.1-0.20210406135808-1c2aa23d3051
+	github.com/golang/protobuf v1.5.0
+	github.com/gordonklaus/ineffassign v0.0.0-20210209182638-d0e41b2fc8ed
+	github.com/spf13/cobra v1.1.3
+	github.com/spf13/pflag v1.0.6-0.20200504143853-81378bbcd8a1
+	github.com/stretchr/testify v1.7.0
+	golang.org/x/lint v0.0.0-20201208152925-83fdc39ff7b5
+	golang.org/x/net v0.0.0-20210224082022-3d97a244fca7
+	google.golang.org/protobuf v1.26.0
+	honnef.co/go/tools v0.1.3
 )
 
-// cilium replace directives, keep in sync
 replace (
 	github.com/miekg/dns => github.com/cilium/dns v1.1.4-0.20190417235132-8e25ec9a0ff3
 	github.com/optiopay/kafka => github.com/cilium/kafka v0.0.0-20180809090225-01ce283b732b
-	gopkg.in/yaml.v2 => gopkg.in/yaml.v2 v2.2.8
-	k8s.io/client-go => github.com/cilium/client-go v0.0.0-20201223004022-d3a5d921c1db
 	sigs.k8s.io/controller-tools => github.com/christarazi/controller-tools v0.3.1-0.20200911184030-7e668c1fb4c2
-	sigs.k8s.io/structured-merge-diff/v4 => github.com/christarazi/structured-merge-diff/v4 v4.0.2-0.20200917183246-1cc601931628
 )
