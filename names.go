@@ -47,6 +47,9 @@ func Name() string {
 // Names generates a random set of names. Panic when max <= 0.
 func Names(max int) []string {
 	n := rand.Intn(max + 1)
+	if n == 0 {
+		return nil
+	}
 	names := make([]string, n)
 	for i := 0; i < n; i++ {
 		names[i] = Name()
