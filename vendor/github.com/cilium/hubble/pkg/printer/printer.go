@@ -1,4 +1,4 @@
-// Copyright 2019 Authors of Hubble
+// Copyright 2019-2021 Authors of Hubble
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ type Printer struct {
 	line        int
 	tw          *tabwriter.Writer
 	jsonEncoder *json.Encoder
+	color       *colorer
 }
 
 type errWriter struct {
@@ -71,13 +72,15 @@ func New(fopts ...Option) *Printer {
 	}
 
 	p := &Printer{
-		opts: opts,
+		opts:  opts,
+		color: newColorer(opts.color),
 	}
 
 	switch opts.output {
 	case TabOutput:
 		// initialize tabwriter since it's going to be needed
 		p.tw = tabwriter.NewWriter(opts.w, 2, 0, 3, ' ', 0)
+		p.color.disable() // the tabwriter is not compatible with colors, thus disable coloring
 	case JSONOutput, JSONPBOutput:
 		p.jsonEncoder = json.NewEncoder(p.opts.w)
 	}
@@ -135,7 +138,7 @@ func (p *Printer) GetHostNames(f *pb.Flow) (string, string) {
 
 	if f.GetIP() == nil {
 		if eth := f.GetEthernet(); eth != nil {
-			return eth.GetSource(), eth.GetDestination()
+			return p.color.host(eth.GetSource()), p.color.host(eth.GetDestination())
 		}
 		return "", ""
 	}
@@ -159,7 +162,7 @@ func (p *Printer) GetHostNames(f *pb.Flow) (string, string) {
 	srcPort, dstPort := p.GetPorts(f)
 	src := p.Hostname(f.GetIP().Source, srcPort, srcNamespace, srcPodName, srcSvcName, f.GetSourceNames())
 	dst := p.Hostname(f.GetIP().Destination, dstPort, dstNamespace, dstPodName, dstSvcName, f.GetDestinationNames())
-	return src, dst
+	return p.color.host(src), p.color.host(dst)
 }
 
 func fmtTimestamp(layout string, ts *timestamppb.Timestamp) string {
@@ -204,6 +207,20 @@ func GetFlowType(f *pb.Flow) string {
 	return "UNKNOWN"
 }
 
+func (p Printer) getVerdict(f *pb.Flow) string {
+	verdict := f.GetVerdict()
+	switch verdict {
+	case pb.Verdict_FORWARDED:
+		return p.color.verdictForwarded(verdict.String())
+	case pb.Verdict_DROPPED, pb.Verdict_ERROR:
+		return p.color.verdictDropped(verdict.String())
+	case pb.Verdict_AUDIT:
+		return p.color.verdictAudit(verdict.String())
+	default:
+		return verdict.String()
+	}
+}
+
 // WriteProtoFlow writes v1.Flow into the output writer.
 func (p *Printer) WriteProtoFlow(res *observerpb.GetFlowsResponse) error {
 	f := res.GetFlow()
@@ -234,7 +251,7 @@ func (p *Printer) WriteProtoFlow(res *observerpb.GetFlowsResponse) error {
 			src, tab,
 			dst, tab,
 			GetFlowType(f), tab,
-			f.GetVerdict().String(), tab,
+			p.getVerdict(f), tab,
 			f.GetSummary(), newline,
 		)
 		if ew.err != nil {
@@ -259,7 +276,7 @@ func (p *Printer) WriteProtoFlow(res *observerpb.GetFlowsResponse) error {
 			"     SOURCE: ", src, newline,
 			"DESTINATION: ", dst, newline,
 			"       TYPE: ", GetFlowType(f), newline,
-			"    VERDICT: ", f.GetVerdict().String(), newline,
+			"    VERDICT: ", p.getVerdict(f), newline,
 			"    SUMMARY: ", f.GetSummary(), newline,
 		)
 		if ew.err != nil {
@@ -272,14 +289,24 @@ func (p *Printer) WriteProtoFlow(res *observerpb.GetFlowsResponse) error {
 		if p.opts.nodeName {
 			node = fmt.Sprintf(" [%s]", f.GetNodeName())
 		}
+		arrow := "->"
+		if f.GetIsReply() == nil {
+			// direction is unknown.
+			arrow = "<>"
+		} else if f.GetIsReply().Value {
+			// flip the arrow and src/dst for reply packets.
+			src, dst = dst, src
+			arrow = "<-"
+		}
 		_, err := fmt.Fprintf(p.opts.w,
-			"%s%s: %s -> %s %s %s (%s)\n",
+			"%s%s: %s %s %s %s %s (%s)\n",
 			fmtTimestamp(p.opts.timeFormat, f.GetTime()),
 			node,
 			src,
+			arrow,
 			dst,
 			GetFlowType(f),
-			f.GetVerdict().String(),
+			p.getVerdict(f),
 			f.GetSummary())
 		if err != nil {
 			return fmt.Errorf("failed to write out packet: %v", err)
@@ -479,7 +506,7 @@ func getAgentEventDetails(e *pb.AgentEvent, timeLayout string) string {
 }
 
 // WriteProtoAgentEvent writes v1.AgentEvent into the output writer.
-func (p *Printer) WriteProtoAgentEvent(r *observerpb.GetFlowsResponse) error {
+func (p *Printer) WriteProtoAgentEvent(r *observerpb.GetAgentEventsResponse) error {
 	e := r.GetAgentEvent()
 	if e == nil {
 		return errors.New("not an agent event")
@@ -581,7 +608,7 @@ func fmtEndpointShort(ep *pb.Endpoint) string {
 }
 
 // WriteProtoDebugEvent writes a flowpb.DebugEvent into the output writer.
-func (p *Printer) WriteProtoDebugEvent(r *observerpb.GetFlowsResponse) error {
+func (p *Printer) WriteProtoDebugEvent(r *observerpb.GetDebugEventsResponse) error {
 	e := r.GetDebugEvent()
 	if e == nil {
 		return errors.New("not a debug event")
@@ -683,7 +710,7 @@ func (p *Printer) Hostname(ip, port string, ns, pod, svc string, names []string)
 	}
 
 	if port != "" && port != "0" {
-		return net.JoinHostPort(host, port)
+		return net.JoinHostPort(host, p.color.port(port))
 	}
 
 	return host
@@ -696,10 +723,6 @@ func (p *Printer) WriteGetFlowsResponse(res *observerpb.GetFlowsResponse) error 
 		return p.WriteProtoFlow(res)
 	case *observerpb.GetFlowsResponse_NodeStatus:
 		return p.WriteProtoNodeStatusEvent(res)
-	case *observerpb.GetFlowsResponse_AgentEvent:
-		return p.WriteProtoAgentEvent(res)
-	case *observerpb.GetFlowsResponse_DebugEvent:
-		return p.WriteProtoDebugEvent(res)
 	case nil:
 		return nil
 	default:
