@@ -30,8 +30,12 @@ var allCiliumEventTypes = []int32{
 
 // CiliumEventType generates a random CiliumEventType.
 func CiliumEventType() *flowpb.CiliumEventType {
+	typ := allCiliumEventTypes[rand.Intn(len(allCiliumEventTypes))]
+	if typ == api.MessageTypeUnspec {
+		return nil
+	}
 	return &flowpb.CiliumEventType{
-		Type: allCiliumEventTypes[rand.Intn(len(allCiliumEventTypes))],
+		Type: typ,
 		// NOTE: AgentNotify* are the most numerous.
 		SubType: int32(rand.Intn(13)),
 	}
