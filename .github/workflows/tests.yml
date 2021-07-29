@@ -23,7 +23,13 @@ jobs:
     - name: Build
       run: make
     - name: Run static checks
-      run: make check
+      uses: golangci/golangci-lint-action@v2
+      with:
+        version: v1.41.1
+        args: --config=.golangci.yml --verbose
+        skip-go-installation: true
+        skip-pkg-cache: true
+        skip-build-cache: true
     - name: Run unit tests
       run: make test
   go-mod:
