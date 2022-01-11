@@ -11,39 +11,72 @@ on:
     - v*
 
 jobs:
-  build:
+  main:
     runs-on: ubuntu-latest
     steps:
     - name: Install Go
-      uses: actions/setup-go@v1
+      uses: actions/setup-go@v2.1.5
       with:
         go-version: '1.17.6'
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2.4.0
     - name: Build
       run: make
     - name: Run static checks
-      uses: golangci/golangci-lint-action@v2
+      uses: golangci/golangci-lint-action@v2.5.2
       with:
-        version: v1.41.1
+        version: v1.43.0
         args: --config=.golangci.yml --verbose
         skip-go-installation: true
         skip-pkg-cache: true
         skip-build-cache: true
     - name: Run unit tests
       run: make test
-  go-mod:
+  cmd:
     runs-on: ubuntu-latest
     steps:
     - name: Install Go
-      uses: actions/setup-go@v1
+      uses: actions/setup-go@v2.1.5
       with:
         go-version: '1.17.6'
     - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Check module vendoring
-      run: |
-        go mod tidy
-        go mod vendor
-        go mod verify
-        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy && go mod vendor', and submit your changes"; exit 1)
+      uses: actions/checkout@v2.4.0
+    - name: Build
+      working-directory: ./cmd
+      run: make
+    - name: Run static checks
+      uses: golangci/golangci-lint-action@v2.5.2
+      with:
+        working-directory: ./cmd
+        version: v1.43.0
+        args: --config=../.golangci.yml --verbose
+        skip-go-installation: true
+        skip-pkg-cache: true
+        skip-build-cache: true
+    - name: Run unit tests
+      working-directory: ./cmd
+      run: make test
+  flow:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Go
+      uses: actions/setup-go@v2.1.5
+      with:
+        go-version: '1.17.6'
+    - name: Checkout code
+      uses: actions/checkout@v2.4.0
+    - name: Build
+      working-directory: ./flow
+      run: make
+    - name: Run static checks
+      uses: golangci/golangci-lint-action@v2.5.2
+      with:
+        working-directory: ./flow
+        version: v1.43.0
+        args: --config=../.golangci.yml --verbose
+        skip-go-installation: true
+        skip-pkg-cache: true
+        skip-build-cache: true
+    - name: Run unit tests
+      working-directory: ./flow
+      run: make test
