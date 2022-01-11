@@ -1,36 +1,37 @@
-GO := GOPRIVATE=github.com/isovalent CGO_ENABLED=0 go
-INSTALL = $(QUIET)install
-BINDIR ?= /usr/local/bin
-TARGET := fake
-TEST_TIMEOUT ?= 5s
-
-GOLANGCILINT_WANT_VERSION = 1.41.1
-GOLANGCILINT_VERSION = $(shell golangci-lint version 2>/dev/null)
+include Makefile.defs
 
 .PHONY: all
 all: $(TARGET)
 
 .PHONY: $(TARGET)
 $(TARGET):
-	$(GO) build -o $(TARGET) ./cmd/fake
+	make -C cmd all
 
 .PHONY: install
 install: $(TARGET)
-	$(INSTALL) -m 0755 -d $(DESTDIR)$(BINDIR)
-	$(INSTALL) -m 0755 ./$(TARGET) $(DESTDIR)$(BINDIR)
+	make -C cmd install
 
 .PHONY: clean
 clean:
-	rm -f $(TARGET)
-	rm -f cpu.prof mem.prof
+	make -C cmd clean
 
 .PHONY: test
 test:
-	GOPRIVATE=github.com/isovalent CGO_ENABLED=1 go test -timeout=$(TEST_TIMEOUT) -race -cover $$($(GO) list ./...)
+	$(GO) test $(GO_TEST_FLAGS) ./...
+
+.PHONY: test-all
+test-all: test
+	make -C flow test
+	make -C cmd test
 
 .PHONY: bench
 bench:
-	GOPRIVATE=github.com/isovalent CGO_ENABLED=1 go test -timeout=30s -bench=. $$($(GO) list ./...)
+	$(GO) test $(GO_BENCH_FLAGS) $$($(GO) list ./...)
+
+.PHONY: bench-all
+bench-all: bench
+	make -C flow bench
+	make -C cmd bench
 
 .PHONY: check
 ifneq (,$(findstring $(GOLANGCILINT_WANT_VERSION),$(GOLANGCILINT_VERSION)))
@@ -40,3 +41,8 @@ else
 check:
 	docker run --rm -v `pwd`:/app -w /app docker.io/golangci/golangci-lint:v$(GOLANGCILINT_WANT_VERSION) golangci-lint run
 endif
+
+.PHONY: check-all
+check-all: check
+	make -C flow check
+	make -C cmd check
