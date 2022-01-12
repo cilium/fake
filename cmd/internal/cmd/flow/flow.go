@@ -82,7 +82,7 @@ func New() *cobra.Command {
 			}
 			p := printer.New(printerOpts...)
 			defer p.Close()
-			return runFlows(cmd, p)
+			return runFlows(p)
 		},
 	}
 
@@ -109,7 +109,7 @@ type node struct {
 	ip   *flowpb.IP
 }
 
-func runFlows(cmd *cobra.Command, p *printer.Printer) error {
+func runFlows(p *printer.Printer) error {
 	ts := time.Now().UTC().Add(-1 * opts.since)
 
 	nodesIPs := make([]node, opts.nodesCount)

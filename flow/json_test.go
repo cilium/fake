@@ -17,34 +17,29 @@ import (
 	observerpb "github.com/cilium/cilium/api/v1/observer"
 )
 
-func doTestFakeJSON(t *testing.T) {
-	flow := New()
-	resp1 := observerpb.GetFlowsResponse{
-		NodeName: "test-node",
-		Time:     flow.Time,
-		ResponseTypes: &observerpb.GetFlowsResponse_Flow{
-			Flow: flow,
-		},
-	}
-
-	b, err := json.Marshal(&resp1)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	var resp2 observerpb.GetFlowsResponse
-	if err := json.Unmarshal(b, &resp2); err != nil {
-		t.Fatal(err)
-	}
-
-	if !reflect.DeepEqual(resp1.ResponseTypes, resp2.ResponseTypes) {
-		t.FailNow()
-	}
-
-}
-
 func Test_JSON(t *testing.T) {
 	for i := 0; i < 1000; i++ {
-		doTestFakeJSON(t)
+		flow := New()
+		resp1 := observerpb.GetFlowsResponse{
+			NodeName: "test-node",
+			Time:     flow.Time,
+			ResponseTypes: &observerpb.GetFlowsResponse_Flow{
+				Flow: flow,
+			},
+		}
+
+		b, err := json.Marshal(&resp1)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		var resp2 observerpb.GetFlowsResponse
+		if err := json.Unmarshal(b, &resp2); err != nil {
+			t.Fatal(err)
+		}
+
+		if !reflect.DeepEqual(resp1.ResponseTypes, resp2.ResponseTypes) {
+			t.FailNow()
+		}
 	}
 }
