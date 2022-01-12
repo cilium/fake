@@ -91,5 +91,5 @@ func IP(options ...IPOption) string {
 	for i, v := range raw {
 		ip[i] = ip[i] + (v &^ opts.network.Mask[i])
 	}
-	return net.IP(ip).String()
+	return ip.String()
 }
