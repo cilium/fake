@@ -30,6 +30,11 @@ jobs:
         skip-go-installation: true
         skip-pkg-cache: true
         skip-build-cache: true
+    - name: Check module tidiness
+      run: |
+        go mod tidy -compat=1.17
+        go mod verify
+        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.17', and commit your changes"; exit 1)
     - name: Run unit tests
       run: make test
   cmd:
@@ -53,6 +58,12 @@ jobs:
         skip-go-installation: true
         skip-pkg-cache: true
         skip-build-cache: true
+    - name: Check module tidiness
+      working-directory: ./cmd
+      run: |
+        go mod tidy -compat=1.17
+        go mod verify
+        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.17', and commit your changes"; exit 1)
     - name: Run unit tests
       working-directory: ./cmd
       run: make test
@@ -77,6 +88,12 @@ jobs:
         skip-go-installation: true
         skip-pkg-cache: true
         skip-build-cache: true
+    - name: Check module tidiness
+      working-directory: ./flow
+      run: |
+        go mod tidy -compat=1.17
+        go mod verify
+        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.17', and commit your changes"; exit 1)
     - name: Run unit tests
       working-directory: ./flow
       run: make test
