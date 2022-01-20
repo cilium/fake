@@ -171,7 +171,7 @@ func New(options ...Option) *flowpb.Flow {
 		DestinationNames: fake.Names(5),
 		// TODO: L7
 		// NOTE: don't populate Reply as it is deprecated.
-		EventType:             CiliumEventType(),
+		EventType:             EventType(),
 		SourceService:         Service(),
 		DestinationService:    Service(),
 		TrafficDirection:      flowpb.TrafficDirection(rand.Intn(3)),

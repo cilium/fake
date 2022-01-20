@@ -21,7 +21,7 @@ import (
 	"github.com/cilium/cilium/pkg/monitor/api"
 )
 
-var allCiliumEventTypes = []int32{
+var allEventTypes = []int32{
 	api.MessageTypeUnspec,
 	api.MessageTypeDrop,
 	api.MessageTypeDebug,
@@ -32,9 +32,9 @@ var allCiliumEventTypes = []int32{
 	api.MessageTypeAgent,
 }
 
-// CiliumEventType generates a random CiliumEventType.
-func CiliumEventType() *flowpb.CiliumEventType {
-	typ := allCiliumEventTypes[rand.Intn(len(allCiliumEventTypes))]
+// EventType generates a random EventType.
+func EventType() *flowpb.CiliumEventType {
+	typ := allEventTypes[rand.Intn(len(allEventTypes))]
 	if typ == api.MessageTypeUnspec {
 		return nil
 	}
