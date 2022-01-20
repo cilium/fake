@@ -119,7 +119,7 @@ func runFlows(p *printer.Printer) error {
 	nodesIPs := make([]node, opts.nodesCount)
 	for i := 0; i < len(nodesIPs); i++ {
 		nodesIPs[i] = node{
-			name: fake.NodeName(),
+			name: fake.K8sNodeName(),
 			ip: &flowpb.IP{
 				Source:      fake.IP(fake.WithIPCIDR(opts.sourceCIDR)),
 				Destination: fake.IP(fake.WithIPCIDR(opts.destCIDR)),

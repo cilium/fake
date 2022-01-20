@@ -64,9 +64,9 @@ func WithEndpointLabels(labels []string) EndpointOption {
 // the endpoint to return.
 func Endpoint(options ...EndpointOption) *flowpb.Endpoint {
 	opts := endpointOptions{
-		namespace: fake.Namespace(),
-		podName:   fake.PodName(),
-		labels:    fake.Labels(),
+		namespace: fake.K8sNamespace(),
+		podName:   fake.K8sPodName(),
+		labels:    fake.K8sLabels(),
 	}
 	for _, opt := range options {
 		opt.apply(&opts)

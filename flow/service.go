@@ -53,7 +53,7 @@ func WithServiceName(name string) ServiceOption {
 // service to return.
 func Service(options ...ServiceOption) *flowpb.Service {
 	opts := serviceOptions{
-		namespace: fake.Namespace(),
+		namespace: fake.K8sNamespace(),
 		name:      fake.Name(),
 	}
 	for _, opt := range options {

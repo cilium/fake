@@ -116,7 +116,7 @@ func New(options ...Option) *flowpb.Flow {
 		time:     time.Now().UTC(),
 		verdict:  Verdict(),
 		typ:      flowpb.FlowType_L3_L4,
-		nodeName: fake.NodeName(),
+		nodeName: fake.K8sNodeName(),
 		epSource: Endpoint(),
 		epDest:   Endpoint(),
 	}
