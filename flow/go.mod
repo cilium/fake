@@ -3,7 +3,7 @@ module github.com/cilium/fake/flow
 go 1.17
 
 require (
-	github.com/cilium/cilium v1.11.0
+	github.com/cilium/cilium v1.11.1
 	github.com/cilium/fake v0.0.0-00010101000000-000000000000
 	github.com/stretchr/testify v1.7.0
 	golang.org/x/net v0.0.0-20220107192237-5cfca573fb4d
