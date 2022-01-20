@@ -21,6 +21,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func Test_MAC(t *testing.T) {
+	for i := 0; i < 20; i++ {
+		hw := MAC()
+		t.Run(hw, func(t *testing.T) {
+			_, err := net.ParseMAC(hw)
+			assert.Nil(t, err)
+		})
+	}
+}
+
 func Test_IP(t *testing.T) {
 	tests := []struct {
 		name string

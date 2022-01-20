@@ -33,7 +33,7 @@ func AlphaNum(length int) string {
 	return string(b)
 }
 
-// App generates a random application name.
+// App generates a random software application name.
 func App() string {
 	return apps[rand.Intn(len(apps))]
 }
@@ -61,33 +61,8 @@ func Names(max int) []string {
 	return names
 }
 
-// Namespace generates a random namespace name.
-func Namespace() string {
-	if rand.Intn(2) == 0 {
-		return namespaces[rand.Intn(len(namespaces))]
-	}
-	return fmt.Sprintf("%s-%s", App(), Tier())
-}
-
-// NodeName generates a random node name.
-func NodeName() string {
-	return fmt.Sprintf(
-		"%s-%s",
-		Adjective(),
-		Noun(),
-	)
-}
-
-// PodName generates a random pod name.
-func PodName() string {
-	return fmt.Sprintf(
-		"%s-%s",
-		App(),
-		AlphaNum(5),
-	)
-}
-
-// Tier generates a random tier such as prod, staging, etc.
-func Tier() string {
+// DeploymentTier generates a random software deployment tier such as prod,
+// staging, etc.
+func DeploymentTier() string {
 	return tiers[rand.Intn(len(tiers))]
 }
