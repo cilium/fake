@@ -16,10 +16,14 @@ package flow
 
 import (
 	"encoding/json"
-	"reflect"
 	"testing"
 
+	flowpb "github.com/cilium/cilium/api/v1/flow"
 	observerpb "github.com/cilium/cilium/api/v1/observer"
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
+	"google.golang.org/protobuf/types/known/timestamppb"
+	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 func Test_JSON(t *testing.T) {
@@ -43,8 +47,27 @@ func Test_JSON(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		if !reflect.DeepEqual(resp1.ResponseTypes, resp2.ResponseTypes) {
-			t.FailNow()
+		if diff := cmp.Diff(
+			resp1.ResponseTypes,
+			resp2.ResponseTypes,
+			cmpopts.IgnoreUnexported(
+				flowpb.CiliumEventType{},
+				flowpb.Endpoint{},
+				flowpb.Ethernet{},
+				flowpb.Flow{},
+				flowpb.ICMPv4{},
+				flowpb.ICMPv6{},
+				flowpb.IP{},
+				flowpb.Layer4{},
+				flowpb.TCP{},
+				flowpb.TCPFlags{},
+				flowpb.Service{},
+				flowpb.UDP{},
+				timestamppb.Timestamp{},
+				wrapperspb.BoolValue{},
+			),
+		); diff != "" {
+			t.Errorf("mismatch (-want +got):\n%s", diff)
 		}
 	}
 }
