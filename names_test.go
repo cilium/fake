@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Authors of Cilium
+// Copyright 2022 Authors of Cilium
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package fake
+package fake_test
 
 import (
 	"math/rand"
-	"time"
+	"testing"
+
+	"github.com/cilium/fake"
+	"github.com/stretchr/testify/assert"
 )
 
-func init() {
-	rand.Seed(time.Now().UnixNano())
+func TestNames(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("Names(-1) should panic()")
+		}
+	}()
+	_ = fake.Names(-1)
+
+	names := fake.Names(0)
+	assert.Nil(t, names)
+
+	max := 100
+	names = fake.Names(rand.Intn(max + 1))
+	assert.NotNil(t, names)
+	assert.LessOrEqual(t, len(names), max)
+	for _, n := range names {
+		assert.NotEmpty(t, n)
+	}
 }
