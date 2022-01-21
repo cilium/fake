@@ -52,7 +52,7 @@ func Name() string {
 func Names(max int) []string {
 	n := rand.Intn(max + 1)
 	if n == 0 {
-		return nil
+		return []string{}
 	}
 	names := make([]string, n)
 	for i := 0; i < n; i++ {
