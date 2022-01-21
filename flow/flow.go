@@ -24,15 +24,16 @@ import (
 )
 
 type flowOptions struct {
-	time             time.Time
-	verdict          flowpb.Verdict
-	dropReason       flowpb.DropReason
-	nodeName         string
-	ip               *flowpb.IP
-	ethernet         *flowpb.Ethernet
-	l4               *flowpb.Layer4
-	epSource, epDest *flowpb.Endpoint
-	typ              flowpb.FlowType
+	time                   time.Time
+	verdict                flowpb.Verdict
+	dropReason             flowpb.DropReason
+	nodeName               string
+	sourceNames, destNames []string
+	ip                     *flowpb.IP
+	ethernet               *flowpb.Ethernet
+	l4                     *flowpb.Layer4
+	epSource, epDest       *flowpb.Endpoint
+	typ                    flowpb.FlowType
 }
 
 // Option is an option to use with Flow.
@@ -71,6 +72,20 @@ func WithFlowDropReason(r flowpb.DropReason) Option {
 func WithFlowNodeName(name string) Option {
 	return funcFlowOption(func(o *flowOptions) {
 		o.nodeName = name
+	})
+}
+
+// WithFlowSourceNames sets the source names field of a flow.
+func WithFlowSourceNames(names []string) Option {
+	return funcFlowOption(func(o *flowOptions) {
+		o.sourceNames = names
+	})
+}
+
+// WithFlowDestinationNames sets the destination names field of a flow.
+func WithFlowDestinationNames(names []string) Option {
+	return funcFlowOption(func(o *flowOptions) {
+		o.destNames = names
 	})
 }
 
@@ -113,12 +128,14 @@ func WithFlowType(t flowpb.FlowType) Option {
 // New generates a random flow. Options may be provided to customize the flow.
 func New(options ...Option) *flowpb.Flow {
 	opts := flowOptions{
-		time:     time.Now().UTC(),
-		verdict:  Verdict(),
-		typ:      flowpb.FlowType_L3_L4,
-		nodeName: fake.K8sNodeName(),
-		epSource: Endpoint(),
-		epDest:   Endpoint(),
+		time:        time.Now().UTC(),
+		verdict:     Verdict(),
+		typ:         flowpb.FlowType_L3_L4,
+		nodeName:    fake.K8sNodeName(),
+		sourceNames: fake.Names(5),
+		destNames:   fake.Names(5),
+		epSource:    Endpoint(),
+		epDest:      Endpoint(),
 	}
 	for _, opt := range options {
 		opt.apply(&opts)
@@ -167,8 +184,8 @@ func New(options ...Option) *flowpb.Flow {
 		Destination:      opts.epDest,
 		Type:             opts.typ,
 		NodeName:         opts.nodeName,
-		SourceNames:      fake.Names(5),
-		DestinationNames: fake.Names(5),
+		SourceNames:      opts.sourceNames,
+		DestinationNames: opts.destNames,
 		// TODO: L7
 		// NOTE: don't populate Reply as it is deprecated.
 		EventType:             EventType(),
