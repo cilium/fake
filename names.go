@@ -48,7 +48,7 @@ func Name() string {
 	return fmt.Sprintf("%s_%s", Adjective(), Noun())
 }
 
-// Names generates a random set of names. Panic when max <= 0.
+// Names generates a random set of names. It panics if max < 0.
 func Names(max int) []string {
 	n := rand.Intn(max + 1)
 	if n == 0 {
