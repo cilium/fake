@@ -15,7 +15,6 @@
 package fake_test
 
 import (
-	"math/rand"
 	"testing"
 
 	"github.com/cilium/fake"
@@ -31,10 +30,11 @@ func TestNames(t *testing.T) {
 	_ = fake.Names(-1)
 
 	names := fake.Names(0)
-	assert.Nil(t, names)
+	assert.NotNil(t, names)
+	assert.Equal(t, len(names), 0)
 
 	max := 100
-	names = fake.Names(rand.Intn(max + 1))
+	names = fake.Names(max)
 	assert.NotNil(t, names)
 	assert.LessOrEqual(t, len(names), max)
 	for _, n := range names {
