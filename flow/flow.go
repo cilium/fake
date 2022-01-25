@@ -173,6 +173,14 @@ func New(options ...Option) *flowpb.Flow {
 		}
 	}
 
+	// These fields are marked as omitempty, so we want to nil them for empty slices
+	if len(opts.sourceNames) == 0 {
+		opts.sourceNames = nil
+	}
+	if len(opts.destNames) == 0 {
+		opts.destNames = nil
+	}
+
 	return &flowpb.Flow{
 		Time:    timestamppb.New(opts.time),
 		Verdict: opts.verdict,
