@@ -1,5 +1,9 @@
 # fake - generate random data for testing and/or performance evaluation
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/cilium/fake.svg)](https://pkg.go.dev/github.com/cilium/fake)
+[![CI](https://github.com/cilium/fake/actions/workflows/tests.yml/badge.svg)](https://github.com/cilium/fake/actions/workflows/tests.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/cilium/fake)](https://goreportcard.com/report/github.com/cilium/fake)
+
 Fake is a Go library and CLI to generate random data such as names, adjectives,
 IP addresses and so on.
 
