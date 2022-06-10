@@ -3,7 +3,7 @@ module github.com/cilium/fake/cmd
 go 1.17
 
 require (
-	github.com/cilium/cilium v1.11.1
+	github.com/cilium/cilium v1.11.5
 	github.com/cilium/fake v0.0.0-00010101000000-000000000000
 	github.com/cilium/fake/flow v0.0.0-00010101000000-000000000000
 	github.com/cilium/hubble v0.9.0
@@ -30,7 +30,7 @@ replace (
 	github.com/miekg/dns => github.com/cilium/dns v1.1.4-0.20190417235132-8e25ec9a0ff3
 	github.com/optiopay/kafka => github.com/cilium/kafka v0.0.0-20180809090225-01ce283b732b
 	go.universe.tf/metallb => github.com/cilium/metallb v0.1.1-0.20210831235406-48667b93284d
-	sigs.k8s.io/controller-tools => github.com/christarazi/controller-tools v0.6.2
+	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.6.2
 )
 
 replace github.com/cilium/fake => ../
