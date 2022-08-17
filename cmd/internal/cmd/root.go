@@ -26,7 +26,7 @@ func New() *cobra.Command {
 	rootCmd := &cobra.Command{
 		Use:           "fake",
 		Short:         "Generate fake network data",
-		SilenceErrors: true, //this is being handled in main
+		SilenceErrors: true, // this is being handled in main
 		SilenceUsage:  true,
 		PersistentPreRunE: func(_ *cobra.Command, _ []string) error {
 			if opts.pprofCPU {
