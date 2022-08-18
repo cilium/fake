@@ -4,8 +4,8 @@ go 1.17
 
 require (
 	github.com/cilium/cilium v1.12.1
-	github.com/cilium/fake v0.0.0-20220610094544-a6d440143124
-	github.com/cilium/fake/flow v0.0.0-20220610094544-a6d440143124
+	github.com/cilium/fake v0.1.0
+	github.com/cilium/fake/flow v0.1.0
 	github.com/cilium/hubble v0.10.0
 	github.com/spf13/cobra v1.5.0
 	github.com/spf13/pflag v1.0.6-0.20200504143853-81378bbcd8a1
@@ -86,7 +86,3 @@ replace (
 	k8s.io/client-go => github.com/cilium/client-go v0.0.0-20220808211112-706606a736d5
 	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.6.2
 )
-
-replace github.com/cilium/fake => ../
-
-replace github.com/cilium/fake/flow => ../flow/
