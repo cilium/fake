@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/cilium/cilium v1.12.1
 	github.com/cilium/fake v0.0.0-20220610094544-a6d440143124
-	github.com/google/go-cmp v0.5.8
+	github.com/google/go-cmp v0.5.9
 	github.com/stretchr/testify v1.8.0
 	golang.org/x/net v0.0.0-20220812174116-3211cb980234
 	google.golang.org/protobuf v1.28.1
