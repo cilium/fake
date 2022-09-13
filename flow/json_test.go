@@ -42,6 +42,7 @@ func Test_JSON(t *testing.T) {
 			cmpopts.IgnoreUnexported(
 				flowpb.CiliumEventType{},
 				flowpb.Endpoint{},
+				flowpb.Workload{},
 				flowpb.Ethernet{},
 				flowpb.Flow{},
 				flowpb.ICMPv4{},
