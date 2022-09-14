@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/cilium/cilium v1.12.1
-	github.com/cilium/fake v0.2.0
+	github.com/cilium/fake v0.0.0-20220610094544-a6d440143124
 	github.com/google/go-cmp v0.5.9
 	github.com/stretchr/testify v1.8.0
 	golang.org/x/net v0.0.0-20220812174116-3211cb980234
@@ -30,3 +30,5 @@ replace (
 	k8s.io/client-go => github.com/cilium/client-go v0.0.0-20220808211112-706606a736d5
 	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.6.2
 )
+
+replace github.com/cilium/fake => ../
