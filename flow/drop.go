@@ -32,7 +32,7 @@ func WithDropReasonNonDropProbability(probability float64) DropReasonOption {
 		switch {
 		case probability < 0:
 			o.nonDropProbability = 0.0
-		case probability > 0:
+		case probability > 1:
 			o.nonDropProbability = 1.0
 		default:
 			o.nonDropProbability = probability
