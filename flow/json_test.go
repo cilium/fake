@@ -53,6 +53,8 @@ func Test_JSON(t *testing.T) {
 				flowpb.TCPFlags{},
 				flowpb.Service{},
 				flowpb.UDP{},
+				flowpb.TraceContext{},
+				flowpb.TraceParent{},
 				timestamppb.Timestamp{},
 				wrapperspb.BoolValue{},
 			),
