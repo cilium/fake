@@ -13,16 +13,17 @@ import (
 )
 
 type flowOptions struct {
-	time                   time.Time
-	verdict                flowpb.Verdict
-	dropReason             flowpb.DropReason
-	nodeName               string
-	sourceNames, destNames []string
-	ip                     *flowpb.IP
-	ethernet               *flowpb.Ethernet
-	l4                     *flowpb.Layer4
-	epSource, epDest       *flowpb.Endpoint
-	typ                    flowpb.FlowType
+	time                    time.Time
+	verdict                 flowpb.Verdict
+	dropReason              flowpb.DropReason
+	nodeName                string
+	sourceNames, destNames  []string
+	ip                      *flowpb.IP
+	ethernet                *flowpb.Ethernet
+	l4                      *flowpb.Layer4
+	epSource, epDest        *flowpb.Endpoint
+	typ                     flowpb.FlowType
+	traceContextProbability float64
 }
 
 // Option is an option to use with Flow.
@@ -114,17 +115,33 @@ func WithFlowType(t flowpb.FlowType) Option {
 	})
 }
 
+// WithTraceContextProbability defines the probability for a flow to contain a
+// trace context. The value must be between 0 and 1. Defaults to 0.1.
+func WithTraceContextProbability(probability float64) Option {
+	return funcFlowOption(func(o *flowOptions) {
+		switch {
+		case probability < 0:
+			o.traceContextProbability = 0.0
+		case probability > 1:
+			o.traceContextProbability = 1.0
+		default:
+			o.traceContextProbability = probability
+		}
+	})
+}
+
 // New generates a random flow. Options may be provided to customize the flow.
 func New(options ...Option) *flowpb.Flow {
 	opts := flowOptions{
-		time:        time.Now().UTC(),
-		verdict:     Verdict(),
-		typ:         flowpb.FlowType_L3_L4,
-		nodeName:    fake.K8sNodeName(),
-		sourceNames: fake.Names(5),
-		destNames:   fake.Names(5),
-		epSource:    Endpoint(),
-		epDest:      Endpoint(),
+		time:                    time.Now().UTC(),
+		verdict:                 Verdict(),
+		typ:                     flowpb.FlowType_L3_L4,
+		nodeName:                fake.K8sNodeName(),
+		sourceNames:             fake.Names(5),
+		destNames:               fake.Names(5),
+		epSource:                Endpoint(),
+		epDest:                  Endpoint(),
+		traceContextProbability: 0.1,
 	}
 	for _, opt := range options {
 		opt.apply(&opts)
@@ -170,6 +187,14 @@ func New(options ...Option) *flowpb.Flow {
 		opts.destNames = nil
 	}
 
+	// TODO: in theory, we should only add a trace context to L7 flows with the
+	// given probability. However, as the library doesn't support L7 flows yet,
+	// add trace context unconditionally.
+	var tc *flowpb.TraceContext
+	if p := rand.Float64(); p < opts.traceContextProbability {
+		tc = TraceContext()
+	}
+
 	return &flowpb.Flow{
 		Time:    timestamppb.New(opts.time),
 		Verdict: opts.verdict,
@@ -193,6 +218,7 @@ func New(options ...Option) *flowpb.Flow {
 		TraceObservationPoint: TraceObservationPoint(),
 		DropReasonDesc:        opts.dropReason,
 		IsReply:               IsReply(),
+		TraceContext:          tc,
 		// NOTE: don't populate Summary as it is deprecated.
 	}
 }
