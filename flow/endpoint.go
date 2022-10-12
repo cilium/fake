@@ -93,7 +93,7 @@ var workloadKinds []string = []string{
 	"Job",
 	"ReplicaSet",
 	"ReplicationController",
-	"Statefulset",
+	"StatefulSet",
 }
 
 func fakeWorkloads() map[string]string {
