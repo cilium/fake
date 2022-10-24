@@ -6,7 +6,7 @@ require (
 	github.com/cilium/cilium v1.13.0-rc1.0.20221007133919-8b1666ad3fd1
 	github.com/cilium/fake v0.3.0
 	github.com/google/go-cmp v0.5.9
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.8.1
 	golang.org/x/net v0.0.0-20220812174116-3211cb980234
 	google.golang.org/protobuf v1.28.1
 )
