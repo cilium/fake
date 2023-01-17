@@ -62,14 +62,12 @@ func New() *cobra.Command {
 				printerOpts = append(printerOpts, printer.Compact())
 			case "dict":
 				printerOpts = append(printerOpts, printer.Dict())
-			case "jsonpb":
+			case "jsonpb", "json", "JSON":
 				printerOpts = append(printerOpts, printer.JSONPB())
 			case "":
 				fallthrough
 			case "tab", "table":
 				printerOpts = append(printerOpts, printer.Tab())
-			case "json", "JSON":
-				printerOpts = append(printerOpts, printer.JSON())
 			default:
 				return fmt.Errorf("invalid output format: %s", opts.output)
 			}
@@ -89,8 +87,8 @@ func New() *cobra.Command {
 		`Specify the output format, one of:
  compact:  Compact output
  dict:     Each flow is shown as KEY:VALUE pair
- json:     JSON encoding
  jsonpb:   Output each GetFlowResponse according to proto3's JSON mapping
+ json:     Alias to jsonpb
  table:    Tab-aligned columns`)
 	flowsCmd.Flags().AddFlagSet(flags)
 
