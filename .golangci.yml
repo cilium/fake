@@ -1,6 +1,8 @@
 # See https://golangci-lint.run/usage/configuration/ for available options.
 # Also https://github.com/cilium/cilium/blob/master/.golangci.yaml as a
 # reference.
+run:
+  go: '1.19'
 linters:
   disable-all: true
   enable:
@@ -10,10 +12,10 @@ linters:
     - bodyclose
     - containedctx
     - contextcheck
-    - deadcode
     - decorder
     - dogsled
     - dupl
+    - dupword
     - durationcheck
     - errcheck
     - errname
@@ -35,19 +37,21 @@ linters:
     - govet
     - grouper
     - ineffassign
+    - interfacebloat
     - makezero
     - misspell
     - nakedret
     - nestif
     - nilerr
     - nilnil
+    - noctx
     - nosprintfhostport
     - prealloc
     - predeclared
+    - reassign
     - revive
     - rowserrcheck
     - staticcheck
-    - structcheck
     - tenv
     - thelper
     - tparallel
@@ -56,34 +60,30 @@ linters:
     - unparam
     - unused
     - usestdlibvars
-    - varcheck
     - wastedassign
-
 linters-settings:
   goheader:
     template: |-
       SPDX-License-Identifier: Apache-2.0
       Copyright Authors of Cilium
-  gosimple:
-    go: "1.19"
+  gosec:
+    # available rules: https://github.com/securego/gosec#available-rules
+    includes: [] # include all available rules
+    excludes:
+      - G104 # Audit errors not checked
+      - G307 # Deferring a method which returns an error
   govet:
     enable-all: true
-    disable:
-      - fieldalignment
-  staticcheck:
-    go: "1.19"
-  stylecheck:
-    go: "1.19"
-  unused:
-    go: "1.19"
-
+    disable: fieldalignment
+  revive:
+    rules:
+      - name: package-comments
+        disabled: true
 issues:
   # Default rules exclude Go doc comments check, which is rather unfortunate.
   # In order to enable Go doc checks, defaults rules have to be disabled.
   # See https://github.com/golangci/golangci-lint/issues/456 for details.
   exclude-use-default: false
-  exclude:
-    - (G104|G307) # EXC0008 gosec: Duplicated errcheck checks
   exclude-rules:
     - linters: [errcheck]
       text: Error return value of .((os\.)?std(out|err)\..*|.*Close|.*Flush|os\.Remove(All)?|.*print(f|ln)?|os\.(Un)?Setenv). is not checked
