@@ -7,7 +7,7 @@ require (
 	github.com/cilium/fake v0.3.0
 	github.com/google/go-cmp v0.5.9
 	github.com/stretchr/testify v1.8.1
-	golang.org/x/net v0.6.0
+	golang.org/x/net v0.7.0
 	google.golang.org/protobuf v1.28.1
 )
 
