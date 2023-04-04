@@ -27,12 +27,10 @@ const (
 )
 
 type layer4Options struct {
-	icmpv4, icmpv6         bool
-	tcp                    bool
-	tcpFlags               *flowpb.TCPFlags
-	tcpSrcPort, tcpDstPort uint32
-	udp                    bool
-	udpSrcPort, udpDstPort uint32
+	icmpv4, icmpv6   bool
+	tcp, udp, sctp   bool
+	srcPort, dstPort uint32
+	tcpFlags         *flowpb.TCPFlags
 }
 
 // Layer4Option is an option to use with Layer4.
@@ -67,6 +65,20 @@ func WithLayer4TCP() Layer4Option {
 	})
 }
 
+// WithLayer4TCPSourcePort specifies the TCP source port for Layer4. Only
+// useful in conjunction with WithLayer4TCP.
+// Deprecated: use WithLayer4SourcePort instead.
+func WithLayer4TCPSourcePort(port uint32) Layer4Option {
+	return WithLayer4SourcePort(port)
+}
+
+// WithLayer4TCPDestinationPort specifies the TCP destination port for Layer4.
+// Only useful in conjunction with WithLayer4TCP.
+// Deprecated: use WithLayer4DestinationPort instead.
+func WithLayer4TCPDestinationPort(port uint32) Layer4Option {
+	return WithLayer4DestinationPort(port)
+}
+
 // WithLayer4TCPFlags specifies the TCP flags for Layer4. Only useful in
 // conjunction with WithLayer4TCP.
 func WithLayer4TCPFlags(flags TCPFlags) Layer4Option {
@@ -85,22 +97,6 @@ func WithLayer4TCPFlags(flags TCPFlags) Layer4Option {
 	})
 }
 
-// WithLayer4TCPSourcePort specifies the TCP source port for Layer4. Only
-// useful in conjunction with WithLayer4TCP.
-func WithLayer4TCPSourcePort(port uint32) Layer4Option {
-	return funcLayer4Option(func(o *layer4Options) {
-		o.tcpSrcPort = port
-	})
-}
-
-// WithLayer4TCPDestinationPort specifies the TCP destination port for Layer4.
-// Only useful in conjunction with WithLayer4TCP.
-func WithLayer4TCPDestinationPort(port uint32) Layer4Option {
-	return funcLayer4Option(func(o *layer4Options) {
-		o.tcpDstPort = port
-	})
-}
-
 // WithLayer4UDP specifies that the Layer4 should be UDP.
 func WithLayer4UDP() Layer4Option {
 	return funcLayer4Option(func(o *layer4Options) {
@@ -110,28 +106,49 @@ func WithLayer4UDP() Layer4Option {
 
 // WithLayer4UDPSourcePort specifies the UDP source port. Only useful in
 // conjunction with WithLayer4UDP.
+// Deprecated: use WithLayer4SourcePort instead.
 func WithLayer4UDPSourcePort(port uint32) Layer4Option {
-	return funcLayer4Option(func(o *layer4Options) {
-		o.udpSrcPort = port
-	})
+	return WithLayer4SourcePort(port)
 }
 
 // WithLayer4UDPDestinationPort specifies the UDP destination port. Only useful
 // in conjunction with WithLayer4UDP.
+// Deprecated: use WithLayer4DestinationPort instead.
 func WithLayer4UDPDestinationPort(port uint32) Layer4Option {
+	return WithLayer4DestinationPort(port)
+}
+
+// WithLayer4SCTP specifies that the Layer4 should be SCTP.
+func WithLayer4SCTP() Layer4Option {
 	return funcLayer4Option(func(o *layer4Options) {
-		o.udpDstPort = port
+		o.sctp = true
+	})
+}
+
+// WithLayer4SourcePort specifies the source port for UDP, TCP, and SCTP. Only
+// useful in conjunction with either WithLayer4UDP, WithLayer4TCP, or
+// WithLayer4SCTP.
+func WithLayer4SourcePort(port uint32) Layer4Option {
+	return funcLayer4Option(func(o *layer4Options) {
+		o.srcPort = port
+	})
+}
+
+// WithLayer4DestinationPort specifies the destination port for UDP, TCP, and
+// SCTP. Only useful in conjunction with either WithLayer4UDP, WithLayer4TCP,
+// or WithLayer4SCTP.
+func WithLayer4DestinationPort(port uint32) Layer4Option {
+	return funcLayer4Option(func(o *layer4Options) {
+		o.dstPort = port
 	})
 }
 
 // Layer4 generates a layer 4. If no option is provided, it will be TCP.
 func Layer4(options ...Layer4Option) *flowpb.Layer4 {
 	opts := layer4Options{
-		tcpSrcPort: fake.Port(fake.WithPortUser()),
-		tcpDstPort: fake.Port(fake.WithPortUser()),
-		tcpFlags:   randTCPFlags(),
-		udpSrcPort: fake.Port(fake.WithPortUser()),
-		udpDstPort: fake.Port(fake.WithPortUser()),
+		tcpFlags: randTCPFlags(),
+		srcPort:  fake.Port(fake.WithPortUser()),
+		dstPort:  fake.Port(fake.WithPortUser()),
 	}
 	for _, opt := range options {
 		opt.apply(&opts)
@@ -144,8 +161,8 @@ func Layer4(options ...Layer4Option) *flowpb.Layer4 {
 		return &flowpb.Layer4{
 			Protocol: &flowpb.Layer4_TCP{
 				TCP: &flowpb.TCP{
-					SourcePort:      opts.tcpSrcPort,
-					DestinationPort: opts.tcpDstPort,
+					SourcePort:      opts.srcPort,
+					DestinationPort: opts.dstPort,
 					Flags:           opts.tcpFlags,
 				},
 			},
@@ -154,8 +171,17 @@ func Layer4(options ...Layer4Option) *flowpb.Layer4 {
 		return &flowpb.Layer4{
 			Protocol: &flowpb.Layer4_UDP{
 				UDP: &flowpb.UDP{
-					SourcePort:      opts.udpSrcPort,
-					DestinationPort: opts.udpDstPort,
+					SourcePort:      opts.srcPort,
+					DestinationPort: opts.dstPort,
+				},
+			},
+		}
+	case opts.sctp:
+		return &flowpb.Layer4{
+			Protocol: &flowpb.Layer4_SCTP{
+				SCTP: &flowpb.SCTP{
+					SourcePort:      opts.srcPort,
+					DestinationPort: opts.dstPort,
 				},
 			},
 		}

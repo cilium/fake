@@ -157,14 +157,16 @@ func New(options ...Option) *flowpb.Flow {
 		}
 		if opts.l4 == nil {
 			var l4Option Layer4Option
-			switch rand.Intn(4) {
+			switch rand.Intn(5) {
 			case 0:
 				l4Option = WithLayer4TCP()
 			case 1:
 				l4Option = WithLayer4UDP()
 			case 2:
-				l4Option = WithLayer4ICMPv4()
+				l4Option = WithLayer4SCTP()
 			case 3:
+				l4Option = WithLayer4ICMPv4()
+			case 4:
 				l4Option = WithLayer4ICMPv6()
 			}
 			opts.l4 = Layer4(l4Option)
