@@ -2,8 +2,8 @@ github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d h1:Byv0BzEl
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/blang/semver/v4 v4.0.0 h1:1PFHFE6yCCTv8C1TeyNNarDzntLi7wMI5i/pzqYIsAM=
 github.com/cespare/xxhash/v2 v2.1.2 h1:YRXhKfTDauu4ajMg1TPgFO5jnlC2HCbmLXMcTG5cbYE=
-github.com/cilium/cilium v1.13.0-rc5 h1:ZcO2twwdXBZS3wS09aBnNwT9LcGhXm2UUbF3pHifcfo=
-github.com/cilium/cilium v1.13.0-rc5/go.mod h1:F1Fyf/X2BIwljlsMIB+0NXd90juH+JJz3Z7ofO5rqpE=
+github.com/cilium/cilium v1.13.1 h1:6JzlYiZw1HqToqZJd5Hb6Xk1QasptOEUS1UUO4LneBQ=
+github.com/cilium/cilium v1.13.1/go.mod h1:xHiUYiRvIsJTqkkTq7xNWXBDZZ5UqyrYJktYZJYuYjI=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
