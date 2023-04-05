@@ -7,7 +7,7 @@ require (
 	github.com/cilium/fake v0.3.0
 	github.com/cilium/fake/flow v0.3.0
 	github.com/cilium/hubble v0.11.3
-	github.com/spf13/cobra v1.6.1
+	github.com/spf13/cobra v1.7.0
 	github.com/spf13/pflag v1.0.6-0.20200504143853-81378bbcd8a1
 	google.golang.org/protobuf v1.30.0
 )
@@ -34,7 +34,7 @@ require (
 	github.com/go-openapi/validate v0.22.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/inconshreveable/mousetrap v1.0.1 // indirect
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/lufia/plan9stats v0.0.0-20220517141722-cf486979b281 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
