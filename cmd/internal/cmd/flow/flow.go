@@ -31,6 +31,7 @@ var opts struct {
 	nodesCount           int
 	ipVersion            flowpb.IPVersion
 	since                time.Duration
+	until                time.Duration
 	sourceCIDR, destCIDR string
 }
 
@@ -81,6 +82,7 @@ func New() *cobra.Command {
 	flags.IntVar(&opts.count, "count", 1, "Number of flows to generate.")
 	flags.IntVar(&opts.nodesCount, "nodes-count", 10, "Defines the number of nodes.")
 	flags.DurationVar(&opts.since, "since", week, "Defines the time of the oldest flow.")
+	flags.DurationVar(&opts.until, "until", 0, "Defines the time of the newest flow. A value of 0 defaults to the current time.")
 	flags.StringVar(&opts.sourceCIDR, "cidr-source", "10.0.0.0/8", "Network for the source IPs.")
 	flags.StringVar(&opts.destCIDR, "cidr-dest", "10.0.0.0/8", "Network for the destination IPs.")
 	flags.StringVarP(&opts.output, "output", "o", "",
@@ -101,7 +103,22 @@ type node struct {
 }
 
 func runFlows(p *printer.Printer) error {
-	ts := time.Now().UTC().Add(-1 * opts.since)
+	now := time.Now().UTC()
+	until := now.Add(-opts.until)
+	since := now.Add(-opts.since)
+
+	if opts.count < 1 {
+		return errors.New("--count must be at least 1")
+	}
+	if !until.After(since) {
+		return errors.New("--since must come before --until")
+	}
+
+	timeRange := until.Sub(since)
+	winRange := timeRange / time.Duration(opts.count)
+	if int64(timeRange) < int64(opts.count) {
+		return errors.New("time range it too short for the requested count")
+	}
 
 	nodesIPs := make([]node, opts.nodesCount)
 	for i := 0; i < len(nodesIPs); i++ {
@@ -116,8 +133,11 @@ func runFlows(p *printer.Printer) error {
 	}
 
 	for i := 0; i < opts.count; i++ {
+		// used to get a random node name
 		idx := rand.Intn(len(nodesIPs))
-		t := ts.Add(time.Duration(i) * time.Millisecond)
+		// add a small amount of jitter to the timestamps so they don't have perfect time gaps
+		jitter := rand.Int63n(int64(winRange))
+		t := since.Add(time.Duration(i)*winRange + time.Duration(jitter))
 		err := p.WriteGetFlowsResponse(&observerpb.GetFlowsResponse{
 			NodeName: nodesIPs[idx].name,
 			Time:     timestamppb.New(t),
