@@ -4,8 +4,8 @@ go 1.19
 
 require (
 	github.com/cilium/cilium v1.13.2
-	github.com/cilium/fake v0.3.0
-	github.com/cilium/fake/flow v0.3.0
+	github.com/cilium/fake v0.4.0
+	github.com/cilium/fake/flow v0.4.0
 	github.com/cilium/hubble v0.11.4
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/pflag v1.0.6-0.20200504143853-81378bbcd8a1
@@ -90,7 +90,3 @@ replace (
 	go.universe.tf/metallb => github.com/cilium/metallb v0.1.1-0.20220829170633-5d7dfb1129f7
 	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.6.2
 )
-
-replace github.com/cilium/fake => ../
-
-replace github.com/cilium/fake/flow => ../flow/
