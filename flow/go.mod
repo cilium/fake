@@ -29,3 +29,5 @@ replace (
 	go.universe.tf/metallb => github.com/cilium/metallb v0.1.1-0.20220829170633-5d7dfb1129f7
 	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.6.2
 )
+
+replace github.com/cilium/fake => ../
