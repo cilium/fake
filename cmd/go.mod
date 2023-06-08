@@ -6,7 +6,7 @@ require (
 	github.com/cilium/cilium v1.13.2
 	github.com/cilium/fake v0.4.0
 	github.com/cilium/fake/flow v0.4.0
-	github.com/cilium/hubble v0.11.5
+	github.com/cilium/hubble v0.11.6
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/pflag v1.0.6-0.20200504143853-81378bbcd8a1
 	google.golang.org/protobuf v1.30.0
