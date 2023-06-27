@@ -9,7 +9,7 @@ require (
 	github.com/cilium/hubble v0.11.6
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/pflag v1.0.6-0.20200504143853-81378bbcd8a1
-	google.golang.org/protobuf v1.30.0
+	google.golang.org/protobuf v1.31.0
 )
 
 require (
