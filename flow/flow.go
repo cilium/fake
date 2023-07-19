@@ -215,12 +215,15 @@ func New(options ...Option) *flowpb.Flow {
 		EventType:             EventType(),
 		SourceService:         Service(),
 		DestinationService:    Service(),
-		TrafficDirection:      flowpb.TrafficDirection(rand.Intn(3)),
+		TrafficDirection:      flowpb.TrafficDirection(rand.Intn(len(flowpb.TrafficDirection_name) + 1)),
 		PolicyMatchType:       uint32(rand.Intn(5)),
 		TraceObservationPoint: TraceObservationPoint(),
 		DropReasonDesc:        opts.dropReason,
 		IsReply:               IsReply(),
 		TraceContext:          tc,
+		SockXlatePoint:        flowpb.SocketTranslationPoint(rand.Intn(len(flowpb.SocketTranslationPoint_name) + 1)),
+		SocketCookie:          rand.Uint64(),
+		CgroupId:              rand.Uint64(),
 		// NOTE: don't populate Summary as it is deprecated.
 	}
 }
