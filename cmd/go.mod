@@ -3,7 +3,7 @@ module github.com/cilium/fake/cmd
 go 1.19
 
 require (
-	github.com/cilium/cilium v1.14.0-snapshot.5
+	github.com/cilium/cilium v1.14.0-snapshot.6
 	github.com/cilium/fake v0.4.0
 	github.com/cilium/fake/flow v0.4.0
 	github.com/cilium/hubble v0.12.0
