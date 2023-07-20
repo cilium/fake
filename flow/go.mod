@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/cilium/cilium v1.14.0-snapshot.6
-	github.com/cilium/fake v0.4.0
+	github.com/cilium/fake v0.5.0
 	github.com/google/go-cmp v0.5.9
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/net v0.12.0
@@ -29,5 +29,3 @@ replace (
 	k8s.io/client-go => github.com/cilium/client-go v0.27.2-fix
 	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.6.2
 )
-
-replace github.com/cilium/fake => ../
