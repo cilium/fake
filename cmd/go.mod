@@ -79,3 +79,7 @@ replace (
 	k8s.io/client-go => github.com/cilium/client-go v0.27.2-fix
 	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.6.2
 )
+
+replace github.com/cilium/fake => ../
+
+replace github.com/cilium/fake/flow => ../flow/
