@@ -3,7 +3,7 @@ module github.com/cilium/fake/flow
 go 1.19
 
 require (
-	github.com/cilium/cilium v1.14.0-snapshot.6
+	github.com/cilium/cilium v1.14.0
 	github.com/cilium/fake v0.5.0
 	github.com/google/go-cmp v0.5.9
 	github.com/stretchr/testify v1.8.4
@@ -17,8 +17,8 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	golang.org/x/sys v0.11.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20230530153820-e85fd2cbaebc // indirect
-	google.golang.org/grpc v1.56.1 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20230731193218-e0aa005b6bdf // indirect
+	google.golang.org/grpc v1.57.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
