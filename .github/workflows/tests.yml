@@ -3,11 +3,11 @@ name: Run static checks and unit tests
 on:
   push:
     branches:
-      - master
+      - main
       - v*
   pull_request:
     branches:
-    - master
+    - main
     - v*
 
 jobs:
