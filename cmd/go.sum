@@ -54,8 +54,8 @@ github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMn
 github.com/cilium/checkmate v1.0.3 h1:CQC5eOmlAZeEjPrVZY3ZwEBH64lHlx9mXYdUehEwI5w=
 github.com/cilium/cilium v1.14.2 h1:NVz14uSoKB0Y37iFveMQGYH03ZflEuZegmQWpTMf5TM=
 github.com/cilium/cilium v1.14.2/go.mod h1:ghd9LkTSbRPtJal0Bsdq1ise+j5Ezy14xgaM2o3XLCI=
-github.com/cilium/hubble v0.12.1 h1:xqYL310P6wdcQ43KpWTEd80sxHnntIXry6OATC0sTnQ=
-github.com/cilium/hubble v0.12.1/go.mod h1:fb1iqcONJbp8RAboimIhDmE1ourcEfjHoVYAy+z+iAY=
+github.com/cilium/hubble v0.12.2 h1:iSKm8Ezuonjke2APgMQ7vIOmUGj0L9Be7b/sRa7FuAs=
+github.com/cilium/hubble v0.12.2/go.mod h1:eKlcKF5Lynj+GXCCvqDCgu4UW9dUE1cAnYfQbFd0Bb0=
 github.com/cilium/proxy v0.0.0-20230623092907-8fddead4e52c h1:/NqY4jLr92f7VcUJe1gHS6CgSGWFUCeD2f4QhxO8tgE=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGXZJjfX53e64911xZQV5JYwmTeXPW+k8Sc=
