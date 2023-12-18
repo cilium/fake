@@ -3,7 +3,7 @@ module github.com/cilium/fake/cmd
 go 1.20
 
 require (
-	github.com/cilium/cilium v1.14.2
+	github.com/cilium/cilium v1.14.5
 	github.com/cilium/fake v0.5.0
 	github.com/cilium/fake/flow v0.5.0
 	github.com/cilium/hubble v0.12.3
@@ -63,7 +63,7 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20231009173412-8bfb1ae86b6c // indirect
-	google.golang.org/grpc v1.57.0 // indirect
+	google.golang.org/grpc v1.59.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/apimachinery v0.27.6 // indirect
@@ -74,8 +74,8 @@ require (
 
 // Replace directives from github.com/cilium/cilium. Keep in sync when updating Cilium!
 replace (
-	github.com/miekg/dns => github.com/cilium/dns v1.1.51-0.20220729113855-5b94b11b46fc
 	go.universe.tf/metallb => github.com/cilium/metallb v0.1.1-0.20220829170633-5d7dfb1129f7
+	k8s.io/client-go => github.com/cilium/client-go v0.27.6-fix
 	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.6.2
 )
 
