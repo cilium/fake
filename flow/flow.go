@@ -227,7 +227,7 @@ func New(options ...Option) *flowpb.Flow {
 		EventType:             EventType(),
 		SourceService:         Service(),
 		DestinationService:    Service(),
-		TrafficDirection:      flowpb.TrafficDirection(rand.Intn(len(flowpb.TrafficDirection_name) + 1)),
+		TrafficDirection:      TrafficDirection(),
 		PolicyMatchType:       uint32(rand.Intn(5)),
 		TraceObservationPoint: TraceObservationPoint(),
 		DropReasonDesc:        opts.dropReason,
