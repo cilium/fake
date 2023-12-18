@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func Test_MAC(t *testing.T) {
@@ -15,7 +16,7 @@ func Test_MAC(t *testing.T) {
 		hw := MAC()
 		t.Run(hw, func(t *testing.T) {
 			_, err := net.ParseMAC(hw)
-			assert.Nil(t, err)
+			require.NoError(t, err)
 		})
 	}
 }

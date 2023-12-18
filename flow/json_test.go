@@ -20,7 +20,7 @@ func Test_JSON(t *testing.T) {
 		flow := New()
 		resp1 := observerpb.GetFlowsResponse{
 			NodeName: "test-node",
-			Time:     flow.Time,
+			Time:     flow.GetTime(),
 			ResponseTypes: &observerpb.GetFlowsResponse_Flow{
 				Flow: flow,
 			},
@@ -37,8 +37,8 @@ func Test_JSON(t *testing.T) {
 		}
 
 		if diff := cmp.Diff(
-			resp1.ResponseTypes,
-			resp2.ResponseTypes,
+			resp1.GetResponseTypes(),
+			resp2.GetResponseTypes(),
 			cmpopts.IgnoreUnexported(
 				flowpb.CiliumEventType{},
 				flowpb.Endpoint{},

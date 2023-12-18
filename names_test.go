@@ -20,7 +20,7 @@ func TestNames(t *testing.T) {
 
 	names := fake.Names(0)
 	assert.NotNil(t, names)
-	assert.Equal(t, len(names), 0)
+	assert.Empty(t, names)
 
 	max := 100
 	names = fake.Names(max)

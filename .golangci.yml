@@ -49,14 +49,18 @@ linters:
     - nilnil
     - noctx
     - nosprintfhostport
+    - perfsprint
     - prealloc
     - predeclared
+    - protogetter
     - reassign
     - revive
     - rowserrcheck
+    - sloglint
     - staticcheck
     - tagalign
     - tenv
+    - testifylint
     - thelper
     - tparallel
     - typecheck
