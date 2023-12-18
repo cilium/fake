@@ -9,12 +9,14 @@ import (
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 	"github.com/cilium/fake"
+	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type flowOptions struct {
 	time                    time.Time
 	verdict                 flowpb.Verdict
+	authType                flowpb.AuthType
 	dropReason              flowpb.DropReason
 	nodeName                string
 	sourceNames, destNames  []string
@@ -48,6 +50,13 @@ func WithFlowTime(t time.Time) Option {
 func WithFlowVerdict(v flowpb.Verdict) Option {
 	return funcFlowOption(func(o *flowOptions) {
 		o.verdict = v
+	})
+}
+
+// WithFlowAuthType sets the authentication type field of a flow.
+func WithFlowAuthType(t flowpb.AuthType) Option {
+	return funcFlowOption(func(o *flowOptions) {
+		o.authType = t
 	})
 }
 
@@ -135,6 +144,7 @@ func New(options ...Option) *flowpb.Flow {
 	opts := flowOptions{
 		time:                    time.Now().UTC(),
 		verdict:                 Verdict(),
+		authType:                AuthType(),
 		typ:                     flowpb.FlowType_L3_L4,
 		nodeName:                fake.K8sNodeName(),
 		sourceNames:             fake.Names(5),
@@ -198,8 +208,10 @@ func New(options ...Option) *flowpb.Flow {
 	}
 
 	return &flowpb.Flow{
-		Time:    timestamppb.New(opts.time),
-		Verdict: opts.verdict,
+		Time:     timestamppb.New(opts.time),
+		Uuid:     uuid.NewString(),
+		Verdict:  opts.verdict,
+		AuthType: opts.authType,
 		// NOTE: don't populate DropReason as it is deprecated.
 		Ethernet:         opts.ethernet,
 		IP:               opts.ip,
