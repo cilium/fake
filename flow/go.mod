@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/cilium/cilium v1.14.5
-	github.com/cilium/fake v0.5.0
+	github.com/cilium/fake v0.6.0
 	github.com/google/go-cmp v0.6.0
 	github.com/google/uuid v1.3.1
 	github.com/stretchr/testify v1.8.4
@@ -29,5 +29,3 @@ replace (
 	k8s.io/client-go => github.com/cilium/client-go v0.27.6-fix
 	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.6.2
 )
-
-replace github.com/cilium/fake => ../
