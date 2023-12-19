@@ -11,5 +11,5 @@ import (
 
 // AuthType generates a random AuthType.
 func AuthType() flowpb.AuthType {
-	return flowpb.AuthType(rand.Intn(len(flowpb.AuthType_name) + 1))
+	return flowpb.AuthType(rand.Intn(len(flowpb.AuthType_name)))
 }

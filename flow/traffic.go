@@ -11,5 +11,5 @@ import (
 
 // TrafficDirection generates a random TrafficDirection.
 func TrafficDirection() flowpb.TrafficDirection {
-	return flowpb.TrafficDirection(rand.Intn(len(flowpb.TrafficDirection_name) + 1))
+	return flowpb.TrafficDirection(rand.Intn(len(flowpb.TrafficDirection_name)))
 }
