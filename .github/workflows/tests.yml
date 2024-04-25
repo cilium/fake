@@ -26,7 +26,7 @@ jobs:
     - name: Build
       run: make
     - name: Run static checks
-      uses: golangci/golangci-lint-action@3cfe3a4abbb849e10058ce4af15d205b6da42804
+      uses: golangci/golangci-lint-action@82d40c283aeb1f2b6595839195e95c2d6a49081b
       with:
         version: v1.55.2
         args: --config=.golangci.yml --verbose --out-${NO_FUTURE}format colored-line-number
@@ -54,7 +54,7 @@ jobs:
       working-directory: ./cmd
       run: make
     - name: Run static checks
-      uses: golangci/golangci-lint-action@3cfe3a4abbb849e10058ce4af15d205b6da42804
+      uses: golangci/golangci-lint-action@82d40c283aeb1f2b6595839195e95c2d6a49081b
       with:
         working-directory: ./cmd
         version: v1.55.2
@@ -85,7 +85,7 @@ jobs:
       working-directory: ./flow
       run: make
     - name: Run static checks
-      uses: golangci/golangci-lint-action@3cfe3a4abbb849e10058ce4af15d205b6da42804
+      uses: golangci/golangci-lint-action@82d40c283aeb1f2b6595839195e95c2d6a49081b
       with:
         working-directory: ./flow
         version: v1.55.2
