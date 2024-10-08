@@ -22,10 +22,10 @@ func TestNames(t *testing.T) {
 	assert.NotNil(t, names)
 	assert.Empty(t, names)
 
-	max := 100
-	names = fake.Names(max)
+	n := 100
+	names = fake.Names(n)
 	assert.NotNil(t, names)
-	assert.LessOrEqual(t, len(names), max)
+	assert.LessOrEqual(t, len(names), n)
 	for _, n := range names {
 		assert.NotEmpty(t, n)
 	}
