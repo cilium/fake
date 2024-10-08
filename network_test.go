@@ -12,7 +12,7 @@ import (
 )
 
 func Test_MAC(t *testing.T) {
-	for i := 0; i < 20; i++ {
+	for range 20 {
 		hw := MAC()
 		t.Run(hw, func(t *testing.T) {
 			_, err := net.ParseMAC(hw)

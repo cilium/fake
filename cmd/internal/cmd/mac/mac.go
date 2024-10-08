@@ -33,7 +33,7 @@ func New() *cobra.Command {
 }
 
 func runMACs(cmd *cobra.Command) error {
-	for i := 0; i < opts.count; i++ {
+	for range opts.count {
 		fmt.Fprintln(cmd.OutOrStdout(), fake.MAC())
 	}
 	return nil
