@@ -64,8 +64,8 @@ func ICMPv4() *flowpb.ICMPv4 {
 	}
 
 	return &flowpb.ICMPv4{
-		Type: uint32(t),
-		Code: uint32(c),
+		Type: uint32(t), //nolint:gosec
+		Code: uint32(c), //nolint:gosec
 	}
 }
 
@@ -172,7 +172,7 @@ func ICMPv6() *flowpb.ICMPv6 {
 	}
 
 	return &flowpb.ICMPv6{
-		Type: uint32(t),
-		Code: uint32(c),
+		Type: uint32(t), //nolint:gosec
+		Code: uint32(c), //nolint:gosec
 	}
 }
