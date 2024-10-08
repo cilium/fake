@@ -28,7 +28,7 @@ jobs:
     - name: Run static checks
       uses: golangci/golangci-lint-action@971e284b6050e8a5849b72094c50ab08da042db8
       with:
-        version: v1.55.2
+        version: v1.61.0
         args: --config=.golangci.yml --verbose --out-${NO_FUTURE}format colored-line-number
         skip-cache: true
     - name: Check module tidiness
@@ -57,7 +57,7 @@ jobs:
       uses: golangci/golangci-lint-action@971e284b6050e8a5849b72094c50ab08da042db8
       with:
         working-directory: ./cmd
-        version: v1.55.2
+        version: v1.61.0
         args: --config=../.golangci.yml --verbose --out-${NO_FUTURE}format colored-line-number
         skip-cache: true
     - name: Check module tidiness
@@ -88,7 +88,7 @@ jobs:
       uses: golangci/golangci-lint-action@971e284b6050e8a5849b72094c50ab08da042db8
       with:
         working-directory: ./flow
-        version: v1.55.2
+        version: v1.61.0
         args: --config=../.golangci.yml --verbose --out-${NO_FUTURE}format colored-line-number
         skip-cache: true
     - name: Check module tidiness
