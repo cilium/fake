@@ -30,6 +30,6 @@ func EventType() *flowpb.CiliumEventType {
 	return &flowpb.CiliumEventType{
 		Type: typ,
 		// NOTE: AgentNotify* are the most numerous.
-		SubType: int32(rand.Intn(13)),
+		SubType: int32(rand.Intn(13)), //nolint:gosec
 	}
 }
