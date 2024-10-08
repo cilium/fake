@@ -41,7 +41,7 @@ func Name() string {
 func Names(n int) []string {
 	n = rand.Intn(n + 1)
 	names := make([]string, n)
-	for i := 0; i < n; i++ {
+	for i := range n {
 		names[i] = Name()
 	}
 	return names

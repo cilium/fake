@@ -132,7 +132,7 @@ func runFlows(p *printer.Printer) error {
 		}
 	}
 
-	for i := 0; i < opts.count; i++ {
+	for i := range opts.count {
 		// used to get a random node name
 		idx := rand.Intn(len(nodesIPs))
 		// add a small amount of jitter to the timestamps so they don't have perfect time gaps

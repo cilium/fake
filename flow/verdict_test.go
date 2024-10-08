@@ -47,7 +47,7 @@ func Test_Verdict(t *testing.T) {
 			}
 
 			forwarded, count := 0, 10000
-			for i := 0; i < count; i++ {
+			for range count {
 				if v := Verdict(tt.opts...); v == flowpb.Verdict_FORWARDED {
 					forwarded++
 				}

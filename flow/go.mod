@@ -1,6 +1,6 @@
 module github.com/cilium/fake/flow
 
-go 1.20
+go 1.22
 
 require (
 	github.com/cilium/cilium v1.14.5

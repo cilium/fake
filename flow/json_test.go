@@ -16,7 +16,7 @@ import (
 )
 
 func Test_JSON(t *testing.T) {
-	for i := 0; i < 1000; i++ {
+	for range 1000 {
 		flow := New()
 		resp1 := observerpb.GetFlowsResponse{
 			NodeName: "test-node",

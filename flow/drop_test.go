@@ -64,7 +64,7 @@ func Test_DropReason(t *testing.T) {
 			}
 
 			nonDrop, count := 0, 10000
-			for i := 0; i < count; i++ {
+			for range count {
 				if d := DropReason(tt.opts...); d == flowpb.DropReason_DROP_REASON_UNKNOWN {
 					nonDrop++
 				}
