@@ -34,7 +34,6 @@ func Test_DropReason(t *testing.T) {
 					flowpb.DropReason_UNKNOWN_ICMPV6_CODE,
 					flowpb.DropReason_UNKNOWN_ICMPV6_TYPE,
 					flowpb.DropReason_ERROR_RETRIEVING_TUNNEL_KEY,
-					flowpb.DropReason_INVALID_GENEVE_OPTION,
 				}),
 			},
 		},

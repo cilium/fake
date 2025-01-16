@@ -75,12 +75,13 @@ func Endpoint(options ...EndpointOption) *flowpb.Endpoint {
 	}
 
 	return &flowpb.Endpoint{
-		ID:        rand.Uint32(),
-		Identity:  rand.Uint32(),
-		Namespace: opts.namespace,
-		PodName:   opts.podName,
-		Labels:    opts.labels,
-		Workloads: workloadsFromMap(opts.workloads),
+		ID:          rand.Uint32(),
+		Identity:    rand.Uint32(),
+		ClusterName: "", //TODO
+		Namespace:   opts.namespace,
+		Labels:      opts.labels,
+		PodName:     opts.podName,
+		Workloads:   workloadsFromMap(opts.workloads),
 	}
 }
 

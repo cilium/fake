@@ -56,6 +56,7 @@ func Test_JSON(t *testing.T) {
 				flowpb.SCTP{},
 				flowpb.TraceContext{},
 				flowpb.TraceParent{},
+				flowpb.Policy{},
 				timestamppb.Timestamp{},
 				wrapperspb.BoolValue{},
 			),
