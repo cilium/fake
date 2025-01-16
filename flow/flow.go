@@ -160,9 +160,10 @@ func New(options ...Option) *flowpb.Flow {
 	if opts.typ == flowpb.FlowType_L3_L4 {
 		if opts.ip == nil {
 			opts.ip = &flowpb.IP{
-				Source:      fake.IP(fake.WithIPCIDR("10.0.0.0/8")),
-				Destination: fake.IP(fake.WithIPCIDR("10.0.0.0/8")),
-				IpVersion:   flowpb.IPVersion_IPv4,
+				Source:       fake.IP(fake.WithIPCIDR("10.0.0.0/8")),
+				SourceXlated: "", // TODO
+				Destination:  fake.IP(fake.WithIPCIDR("10.0.0.0/8")),
+				IpVersion:    flowpb.IPVersion_IPv4,
 			}
 		}
 		if opts.l4 == nil {
@@ -220,6 +221,7 @@ func New(options ...Option) *flowpb.Flow {
 		Destination:      opts.epDest,
 		Type:             opts.typ,
 		NodeName:         opts.nodeName,
+		NodeLabels:       []string{}, //TODO
 		SourceNames:      opts.sourceNames,
 		DestinationNames: opts.destNames,
 		// TODO: L7
@@ -230,6 +232,7 @@ func New(options ...Option) *flowpb.Flow {
 		TrafficDirection:      TrafficDirection(),
 		PolicyMatchType:       uint32(rand.Intn(5)), //nolint:gosec
 		TraceObservationPoint: TraceObservationPoint(),
+		TraceReason:           0, //TODO
 		DropReasonDesc:        opts.dropReason,
 		IsReply:               IsReply(),
 		TraceContext:          tc,
@@ -237,5 +240,9 @@ func New(options ...Option) *flowpb.Flow {
 		SocketCookie:          rand.Uint64(),
 		CgroupId:              rand.Uint64(),
 		// NOTE: don't populate Summary as it is deprecated.
+		EgressAllowedBy:  []*flowpb.Policy{}, //TODO
+		IngressAllowedBy: []*flowpb.Policy{}, //TODO
+		EgressDeniedBy:   []*flowpb.Policy{}, //TODO
+		IngressDeniedBy:  []*flowpb.Policy{}, //TODO
 	}
 }
