@@ -232,7 +232,7 @@ func New(options ...Option) *flowpb.Flow {
 		TrafficDirection:      TrafficDirection(),
 		PolicyMatchType:       uint32(rand.Intn(5)), //nolint:gosec
 		TraceObservationPoint: TraceObservationPoint(),
-		TraceReason:           0, //TODO
+		TraceReason:           TraceReason(),
 		DropReasonDesc:        opts.dropReason,
 		IsReply:               IsReply(),
 		TraceContext:          tc,
