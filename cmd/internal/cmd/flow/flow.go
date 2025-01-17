@@ -138,15 +138,16 @@ func runFlows(p *printer.Printer) error {
 		// add a small amount of jitter to the timestamps so they don't have perfect time gaps
 		jitter := rand.Int63n(int64(winRange))
 		t := since.Add(time.Duration(i)*winRange + time.Duration(jitter))
+		flow := fakeflow.New(
+			fakeflow.WithFlowTime(t),
+			fakeflow.WithFlowNodeName(nodesIPs[idx].name),
+			fakeflow.WithFlowIP(nodesIPs[idx].ip),
+		)
 		err := p.WriteGetFlowsResponse(&observerpb.GetFlowsResponse{
-			NodeName: nodesIPs[idx].name,
+			NodeName: flow.NodeName,
 			Time:     timestamppb.New(t),
 			ResponseTypes: &observerpb.GetFlowsResponse_Flow{
-				Flow: fakeflow.New(
-					fakeflow.WithFlowTime(t),
-					fakeflow.WithFlowNodeName(nodesIPs[idx].name),
-					fakeflow.WithFlowIP(nodesIPs[idx].ip),
-				),
+				Flow: flow,
 			},
 		})
 		if err != nil {

@@ -11,6 +11,7 @@ import (
 )
 
 type endpointOptions struct {
+	cluster   string
 	namespace string
 	podName   string
 	labels    []string
@@ -26,6 +27,13 @@ type funcEndpointOption func(*endpointOptions)
 
 func (feo funcEndpointOption) apply(eo *endpointOptions) {
 	feo(eo)
+}
+
+// WithEndpointCluster sets the cluster of the endpoint.
+func WithEndpointCluster(name string) EndpointOption {
+	return funcEndpointOption(func(o *endpointOptions) {
+		o.cluster = name
+	})
 }
 
 // WithEndpointNamespace sets the namespace of the endpoint.
@@ -77,7 +85,7 @@ func Endpoint(options ...EndpointOption) *flowpb.Endpoint {
 	return &flowpb.Endpoint{
 		ID:          rand.Uint32(),
 		Identity:    rand.Uint32(),
-		ClusterName: "", //TODO
+		ClusterName: opts.cluster,
 		Namespace:   opts.namespace,
 		Labels:      opts.labels,
 		PodName:     opts.podName,
