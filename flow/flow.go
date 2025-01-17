@@ -20,6 +20,7 @@ type flowOptions struct {
 	dropReason              flowpb.DropReason
 	clusterName             string
 	nodeName                string
+	nodeLabels              []string
 	sourceNames, destNames  []string
 	ip                      *flowpb.IP
 	ethernet                *flowpb.Ethernet
@@ -72,6 +73,13 @@ func WithFlowDropReason(r flowpb.DropReason) Option {
 func WithFlowNodeName(name string) Option {
 	return funcFlowOption(func(o *flowOptions) {
 		o.nodeName = name
+	})
+}
+
+// WithFlowNodeLabels sets the node labels field of a flow.
+func WithFlowNodeLabels(labels []string) Option {
+	return funcFlowOption(func(o *flowOptions) {
+		o.nodeLabels = labels
 	})
 }
 
@@ -155,6 +163,7 @@ func New(options ...Option) *flowpb.Flow {
 		authType:                AuthType(),
 		typ:                     flowpb.FlowType_L3_L4,
 		nodeName:                fake.K8sNodeName(),
+		nodeLabels:              fake.K8sLabels(),
 		clusterName:             "default",
 		sourceNames:             fake.Names(5),
 		destNames:               fake.Names(5),
@@ -166,10 +175,10 @@ func New(options ...Option) *flowpb.Flow {
 		opt.apply(&opts)
 	}
 
-	if opts.epSource.ClusterName == "" {
+	if opts.epSource.GetClusterName() == "" {
 		opts.epSource.ClusterName = opts.clusterName
 	}
-	if opts.epDest.ClusterName == "" {
+	if opts.epDest.GetClusterName() == "" {
 		opts.epDest.ClusterName = opts.clusterName
 	}
 
@@ -237,7 +246,7 @@ func New(options ...Option) *flowpb.Flow {
 		Destination:      opts.epDest,
 		Type:             opts.typ,
 		NodeName:         opts.clusterName + "/" + opts.nodeName,
-		NodeLabels:       []string{}, //TODO
+		NodeLabels:       opts.nodeLabels,
 		SourceNames:      opts.sourceNames,
 		DestinationNames: opts.destNames,
 		// TODO: L7
