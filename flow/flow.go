@@ -18,6 +18,7 @@ type flowOptions struct {
 	verdict                 flowpb.Verdict
 	authType                flowpb.AuthType
 	dropReason              flowpb.DropReason
+	clusterName             string
 	nodeName                string
 	sourceNames, destNames  []string
 	ip                      *flowpb.IP
@@ -71,6 +72,13 @@ func WithFlowDropReason(r flowpb.DropReason) Option {
 func WithFlowNodeName(name string) Option {
 	return funcFlowOption(func(o *flowOptions) {
 		o.nodeName = name
+	})
+}
+
+// WithFlowClusterName sets the cluster name of a flow.
+func WithFlowClusterName(name string) Option {
+	return funcFlowOption(func(o *flowOptions) {
+		o.clusterName = name
 	})
 }
 
@@ -147,6 +155,7 @@ func New(options ...Option) *flowpb.Flow {
 		authType:                AuthType(),
 		typ:                     flowpb.FlowType_L3_L4,
 		nodeName:                fake.K8sNodeName(),
+		clusterName:             "default",
 		sourceNames:             fake.Names(5),
 		destNames:               fake.Names(5),
 		epSource:                Endpoint(),
@@ -155,6 +164,13 @@ func New(options ...Option) *flowpb.Flow {
 	}
 	for _, opt := range options {
 		opt.apply(&opts)
+	}
+
+	if opts.epSource.ClusterName == "" {
+		opts.epSource.ClusterName = opts.clusterName
+	}
+	if opts.epDest.ClusterName == "" {
+		opts.epDest.ClusterName = opts.clusterName
 	}
 
 	if opts.typ == flowpb.FlowType_L3_L4 {
@@ -220,7 +236,7 @@ func New(options ...Option) *flowpb.Flow {
 		Source:           opts.epSource,
 		Destination:      opts.epDest,
 		Type:             opts.typ,
-		NodeName:         opts.nodeName,
+		NodeName:         opts.clusterName + "/" + opts.nodeName,
 		NodeLabels:       []string{}, //TODO
 		SourceNames:      opts.sourceNames,
 		DestinationNames: opts.destNames,
