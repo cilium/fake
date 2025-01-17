@@ -144,7 +144,7 @@ func runFlows(p *printer.Printer) error {
 			fakeflow.WithFlowIP(nodesIPs[idx].ip),
 		)
 		err := p.WriteGetFlowsResponse(&observerpb.GetFlowsResponse{
-			NodeName: flow.NodeName,
+			NodeName: flow.GetNodeName(),
 			Time:     timestamppb.New(t),
 			ResponseTypes: &observerpb.GetFlowsResponse_Flow{
 				Flow: flow,
