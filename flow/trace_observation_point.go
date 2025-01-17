@@ -29,3 +29,20 @@ var allTraceObservationPoints = []flowpb.TraceObservationPoint{
 func TraceObservationPoint() flowpb.TraceObservationPoint {
 	return allTraceObservationPoints[rand.Intn(len(allTraceObservationPoints))]
 }
+
+var allTraceReasons = []flowpb.TraceReason{
+	flowpb.TraceReason_TRACE_REASON_UNKNOWN,
+	flowpb.TraceReason_NEW,
+	flowpb.TraceReason_ESTABLISHED,
+	flowpb.TraceReason_REPLY,
+	flowpb.TraceReason_RELATED,
+	// flowpb.TraceReason_REOPENED -- Deprecated
+	flowpb.TraceReason_SRV6_ENCAP,
+	flowpb.TraceReason_SRV6_DECAP,
+	flowpb.TraceReason_ENCRYPT_OVERLAY,
+}
+
+// TraceReason generates a random TraceReason.
+func TraceReason() flowpb.TraceReason {
+	return allTraceReasons[rand.Intn(len(allTraceReasons))]
+}
