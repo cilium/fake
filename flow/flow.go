@@ -30,6 +30,7 @@ type flowOptions struct {
 	typ                     flowpb.FlowType
 	traceContextProbability float64
 	verdictByPolicies       []*flowpb.Policy
+	sourceNATProbability    float64
 }
 
 // Option is an option to use with Flow.
@@ -165,6 +166,21 @@ func WithTraceContextProbability(probability float64) Option {
 	})
 }
 
+// WithFlowSourceNATProbability defines the probability for a flow to contain a
+// SourceXlated addresss. The value must be between 0 and 1. Defaults to 0.1.
+func WithFlowSourceNATProbability(probability float64) Option {
+	return funcFlowOption(func(o *flowOptions) {
+		switch {
+		case probability < 0:
+			o.sourceNATProbability = 0.0
+		case probability > 1:
+			o.sourceNATProbability = 1.0
+		default:
+			o.sourceNATProbability = probability
+		}
+	})
+}
+
 // New generates a random flow. Options may be provided to customize the flow.
 func New(options ...Option) *flowpb.Flow {
 	opts := flowOptions{
@@ -181,6 +197,7 @@ func New(options ...Option) *flowpb.Flow {
 		epDest:                  Endpoint(),
 		traceContextProbability: 0.1,
 		verdictByPolicies:       Policies(),
+		sourceNATProbability:    0.1,
 	}
 	for _, opt := range options {
 		opt.apply(&opts)
@@ -195,12 +212,7 @@ func New(options ...Option) *flowpb.Flow {
 
 	if opts.typ == flowpb.FlowType_L3_L4 {
 		if opts.ip == nil {
-			opts.ip = &flowpb.IP{
-				Source:       fake.IP(fake.WithIPCIDR("10.0.0.0/8")),
-				SourceXlated: "", // TODO
-				Destination:  fake.IP(fake.WithIPCIDR("10.0.0.0/8")),
-				IpVersion:    flowpb.IPVersion_IPv4,
-			}
+			opts.ip = IP(WithSourceNATProbability(opts.sourceNATProbability))
 		}
 		if opts.l4 == nil {
 			var l4Option Layer4Option
@@ -278,7 +290,7 @@ func New(options ...Option) *flowpb.Flow {
 		// NOTE: don't populate Summary as it is deprecated.
 	}
 
-	if flow.GetEventType().GetType() == api.MessageTypePolicyVerdict {
+	if flow.GetEventType().GetType() == api.MessageTypePolicyVerdict && len(opts.verdictByPolicies) > 0 {
 		switch {
 		case flow.GetVerdict() == flowpb.Verdict_FORWARDED && flow.GetTrafficDirection() == flowpb.TrafficDirection_INGRESS:
 			flow.IngressAllowedBy = opts.verdictByPolicies
