@@ -8,6 +8,7 @@ import (
 	"time"
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
+	"github.com/cilium/cilium/pkg/monitor/api"
 	"github.com/cilium/fake"
 	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -28,6 +29,7 @@ type flowOptions struct {
 	epSource, epDest        *flowpb.Endpoint
 	typ                     flowpb.FlowType
 	traceContextProbability float64
+	verdictByPolicies       []*flowpb.Policy
 }
 
 // Option is an option to use with Flow.
@@ -52,6 +54,14 @@ func WithFlowTime(t time.Time) Option {
 func WithFlowVerdict(v flowpb.Verdict) Option {
 	return funcFlowOption(func(o *flowOptions) {
 		o.verdict = v
+	})
+}
+
+// WithFlowVerdictByPolicies sets the policies in the
+// ingress/egress_allow/denied_by fields.
+func WithFlowVerdictByPolicies(p []*flowpb.Policy) Option {
+	return funcFlowOption(func(o *flowOptions) {
+		o.verdictByPolicies = p
 	})
 }
 
@@ -170,6 +180,7 @@ func New(options ...Option) *flowpb.Flow {
 		epSource:                Endpoint(),
 		epDest:                  Endpoint(),
 		traceContextProbability: 0.1,
+		verdictByPolicies:       Policies(),
 	}
 	for _, opt := range options {
 		opt.apply(&opts)
@@ -233,7 +244,7 @@ func New(options ...Option) *flowpb.Flow {
 		tc = TraceContext()
 	}
 
-	return &flowpb.Flow{
+	flow := &flowpb.Flow{
 		Time:     timestamppb.New(opts.time),
 		Uuid:     uuid.NewString(),
 		Verdict:  opts.verdict,
@@ -265,9 +276,20 @@ func New(options ...Option) *flowpb.Flow {
 		SocketCookie:          rand.Uint64(),
 		CgroupId:              rand.Uint64(),
 		// NOTE: don't populate Summary as it is deprecated.
-		EgressAllowedBy:  []*flowpb.Policy{}, //TODO
-		IngressAllowedBy: []*flowpb.Policy{}, //TODO
-		EgressDeniedBy:   []*flowpb.Policy{}, //TODO
-		IngressDeniedBy:  []*flowpb.Policy{}, //TODO
 	}
+
+	if flow.GetEventType().GetType() == api.MessageTypePolicyVerdict {
+		switch {
+		case flow.GetVerdict() == flowpb.Verdict_FORWARDED && flow.GetTrafficDirection() == flowpb.TrafficDirection_INGRESS:
+			flow.IngressAllowedBy = opts.verdictByPolicies
+		case flow.GetVerdict() == flowpb.Verdict_FORWARDED && flow.GetTrafficDirection() == flowpb.TrafficDirection_EGRESS:
+			flow.EgressAllowedBy = opts.verdictByPolicies
+		case flow.GetVerdict() == flowpb.Verdict_DROPPED && flow.GetTrafficDirection() == flowpb.TrafficDirection_INGRESS:
+			flow.IngressDeniedBy = opts.verdictByPolicies
+		case flow.GetVerdict() == flowpb.Verdict_DROPPED && flow.GetTrafficDirection() == flowpb.TrafficDirection_EGRESS:
+			flow.EgressDeniedBy = opts.verdictByPolicies
+		}
+	}
+
+	return flow
 }
