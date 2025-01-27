@@ -5,13 +5,13 @@ go 1.22.0
 toolchain go1.23.1
 
 require (
-	github.com/cilium/cilium v1.16.5
+	github.com/cilium/cilium v1.16.6
 	github.com/cilium/fake v0.6.1
 	github.com/google/go-cmp v0.6.0
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.10.0
 	golang.org/x/net v0.34.0
-	google.golang.org/protobuf v1.36.3
+	google.golang.org/protobuf v1.36.4
 )
 
 require (
