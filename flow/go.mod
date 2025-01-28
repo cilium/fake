@@ -6,7 +6,7 @@ toolchain go1.23.1
 
 require (
 	github.com/cilium/cilium v1.16.6
-	github.com/cilium/fake v0.6.1
+	github.com/cilium/fake v0.7.0
 	github.com/google/go-cmp v0.6.0
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.10.0
@@ -31,5 +31,3 @@ replace (
 	// as to why we are using a private fork.
 	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.8.0-2
 )
-
-replace github.com/cilium/fake => ../

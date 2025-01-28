@@ -6,8 +6,8 @@ toolchain go1.23.1
 
 require (
 	github.com/cilium/cilium v1.16.6
-	github.com/cilium/fake v0.6.1
-	github.com/cilium/fake/flow v0.6.1
+	github.com/cilium/fake v0.7.0
+	github.com/cilium/fake/flow v0.7.0
 	github.com/cilium/hubble v0.12.3
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/pflag v1.0.6-0.20210604193023-d5e0c0615ace
@@ -80,7 +80,3 @@ replace (
 	// as to why we are using a private fork.
 	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.8.0-2
 )
-
-replace github.com/cilium/fake => ../
-
-replace github.com/cilium/fake/flow => ../flow/
