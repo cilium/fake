@@ -80,3 +80,7 @@ replace (
 	// as to why we are using a private fork.
 	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.8.0-2
 )
+
+replace github.com/cilium/fake => ../
+
+replace github.com/cilium/fake/flow => ../flow/
