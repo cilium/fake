@@ -9,7 +9,7 @@ require (
 	github.com/cilium/fake v0.7.0
 	github.com/cilium/fake/flow v0.7.0
 	github.com/spf13/cobra v1.8.1
-	github.com/spf13/pflag v1.0.6-0.20210604193023-d5e0c0615ace
+	github.com/spf13/pflag v1.0.6
 	google.golang.org/protobuf v1.36.4
 )
 
