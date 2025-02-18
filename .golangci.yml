@@ -81,7 +81,7 @@ linters-settings:
       - G307 # Deferring a method which returns an error
   govet:
     enable-all: true
-    disable: fieldalignment
+    disable: [fieldalignment]
   revive:
     rules:
       - name: package-comments
