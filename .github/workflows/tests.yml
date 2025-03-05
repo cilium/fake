@@ -14,7 +14,7 @@ jobs:
   main:
     strategy:
       matrix:
-        go-version: ["1.22", "1.23"]
+        go-version: ["1.23", "1.24"]
     runs-on: ubuntu-latest
     steps:
     - name: Install Go
@@ -33,15 +33,15 @@ jobs:
         skip-cache: true
     - name: Check module tidiness
       run: |
-        go mod tidy -compat=1.22
+        go mod tidy -compat=1.23
         go mod verify
-        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.20', and commit your changes"; exit 1)
+        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.23', and commit your changes"; exit 1)
     - name: Run unit tests
       run: make test
   cmd:
     strategy:
       matrix:
-        go-version: ["1.22", "1.23"]
+        go-version: ["1.23", "1.24"]
     runs-on: ubuntu-latest
     steps:
     - name: Install Go
@@ -63,16 +63,16 @@ jobs:
     - name: Check module tidiness
       working-directory: ./cmd
       run: |
-        go mod tidy -compat=1.22
+        go mod tidy -compat=1.23
         go mod verify
-        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.20', and commit your changes"; exit 1)
+        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.23', and commit your changes"; exit 1)
     - name: Run unit tests
       working-directory: ./cmd
       run: make test
   flow:
     strategy:
       matrix:
-        go-version: ["1.22", "1.23"]
+        go-version: ["1.23", "1.24"]
     runs-on: ubuntu-latest
     steps:
     - name: Install Go
@@ -94,9 +94,9 @@ jobs:
     - name: Check module tidiness
       working-directory: ./flow
       run: |
-        go mod tidy -compat=1.22
+        go mod tidy -compat=1.23
         go mod verify
-        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.20', and commit your changes"; exit 1)
+        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.23', and commit your changes"; exit 1)
     - name: Run unit tests
       working-directory: ./flow
       run: make test
