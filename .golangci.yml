@@ -19,6 +19,7 @@ linters:
     - err113
     - errcheck
     - errname
+    - exptostd
     - errorlint
     - exhaustive
     - forcetypeassert
@@ -67,6 +68,7 @@ linters:
     - unparam
     - unused
     - usestdlibvars
+    - usetesting
     - wastedassign
 linters-settings:
   goheader:
@@ -93,6 +95,8 @@ issues:
   # In order to enable Go doc checks, defaults rules have to be disabled.
   # See https://github.com/golangci/golangci-lint/issues/456 for details.
   exclude-use-default: false
+  # Set to 0 to disable (default is 3)
+  max-same-issues: 0
   exclude-rules:
     - linters: [errcheck]
       text: Error return value of .((os\.)?std(out|err)\..*|.*Close|.*Flush|os\.Remove(All)?|.*print(f|ln)?|os\.(Un)?Setenv). is not checked
