@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright Authors of Cilium
 
+// Package mac generate random MAC addresses.
 package mac
 
 import (

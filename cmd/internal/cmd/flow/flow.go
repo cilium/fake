@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright Authors of Cilium
 
+// Package flow generate random Hubble flow data.
 package flow
 
 import (

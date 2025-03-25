@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright Authors of Cilium
 
+// Package cmd is the main command of the fake CLI.
 package cmd
 
 import (
