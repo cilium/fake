@@ -2,13 +2,15 @@ module github.com/cilium/fake/flow
 
 go 1.23.0
 
+toolchain go1.24.1
+
 require (
 	github.com/cilium/cilium v1.16.6
 	github.com/cilium/fake v0.7.0
 	github.com/google/go-cmp v0.7.0
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/net v0.37.0
+	golang.org/x/net v0.38.0
 	google.golang.org/protobuf v1.36.6
 )
 
