@@ -26,9 +26,9 @@ jobs:
     - name: Build
       run: make
     - name: Run static checks
-      uses: golangci/golangci-lint-action@1481404843c368bc19ca9406f87d6e0fc97bdcfd
+      uses: golangci/golangci-lint-action@4afd733a84b1f43292c63897423277bb7f4313a9
       with:
-        version: v2.0.1
+        version: v2.1.6
         args: --config=.golangci.yml --verbose
         skip-cache: true
     - name: Check module tidiness
@@ -54,10 +54,10 @@ jobs:
       working-directory: ./cmd
       run: make
     - name: Run static checks
-      uses: golangci/golangci-lint-action@1481404843c368bc19ca9406f87d6e0fc97bdcfd
+      uses: golangci/golangci-lint-action@4afd733a84b1f43292c63897423277bb7f4313a9
       with:
         working-directory: ./cmd
-        version: v2.0.1
+        version: v2.1.6
         args: --config=../.golangci.yml --verbose
         skip-cache: true
     - name: Check module tidiness
@@ -85,10 +85,10 @@ jobs:
       working-directory: ./flow
       run: make
     - name: Run static checks
-      uses: golangci/golangci-lint-action@1481404843c368bc19ca9406f87d6e0fc97bdcfd
+      uses: golangci/golangci-lint-action@4afd733a84b1f43292c63897423277bb7f4313a9
       with:
         working-directory: ./flow
-        version: v2.0.1
+        version: v2.1.6
         args: --config=../.golangci.yml --verbose
         skip-cache: true
     - name: Check module tidiness
