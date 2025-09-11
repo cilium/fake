@@ -14,7 +14,7 @@ jobs:
   main:
     strategy:
       matrix:
-        go-version: ["1.23", "1.24"]
+        go-version: ["1.24", "1.25"]
     runs-on: ubuntu-latest
     steps:
     - name: Install Go
@@ -28,20 +28,20 @@ jobs:
     - name: Run static checks
       uses: golangci/golangci-lint-action@4afd733a84b1f43292c63897423277bb7f4313a9
       with:
-        version: v2.1.6
+        version: v2.4.0
         args: --config=.golangci.yml --verbose
         skip-cache: true
     - name: Check module tidiness
       run: |
-        go mod tidy -compat=1.23
+        go mod tidy -compat=1.24
         go mod verify
-        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.23', and commit your changes"; exit 1)
+        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.24', and commit your changes"; exit 1)
     - name: Run unit tests
       run: make test
   cmd:
     strategy:
       matrix:
-        go-version: ["1.23", "1.24"]
+        go-version: ["1.24", "1.25"]
     runs-on: ubuntu-latest
     steps:
     - name: Install Go
@@ -57,22 +57,22 @@ jobs:
       uses: golangci/golangci-lint-action@4afd733a84b1f43292c63897423277bb7f4313a9
       with:
         working-directory: ./cmd
-        version: v2.1.6
+        version: v2.4.0
         args: --config=../.golangci.yml --verbose
         skip-cache: true
     - name: Check module tidiness
       working-directory: ./cmd
       run: |
-        go mod tidy -compat=1.23
+        go mod tidy -compat=1.24
         go mod verify
-        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.23', and commit your changes"; exit 1)
+        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.24', and commit your changes"; exit 1)
     - name: Run unit tests
       working-directory: ./cmd
       run: make test
   flow:
     strategy:
       matrix:
-        go-version: ["1.23", "1.24"]
+        go-version: ["1.24", "1.25"]
     runs-on: ubuntu-latest
     steps:
     - name: Install Go
@@ -88,15 +88,15 @@ jobs:
       uses: golangci/golangci-lint-action@4afd733a84b1f43292c63897423277bb7f4313a9
       with:
         working-directory: ./flow
-        version: v2.1.6
+        version: v2.4.0
         args: --config=../.golangci.yml --verbose
         skip-cache: true
     - name: Check module tidiness
       working-directory: ./flow
       run: |
-        go mod tidy -compat=1.23
+        go mod tidy -compat=1.24
         go mod verify
-        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.23', and commit your changes"; exit 1)
+        test -z "$(git status --porcelain)" || (echo "please run 'go mod tidy -compat=1.24', and commit your changes"; exit 1)
     - name: Run unit tests
       working-directory: ./flow
       run: make test
