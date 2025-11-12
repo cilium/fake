@@ -76,6 +76,17 @@
     {
       customType: "regex",
       managerFilePatterns: [
+        "/^cmd\\/go\\.mod$/",
+        "/^flow\\/go\\.mod$/",
+        "/^go\\.mod$/",
+      ],
+      matchStrings: [
+        "// renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+go (?<currentValue>.*)",
+      ],
+    },
+    {
+      customType: "regex",
+      managerFilePatterns: [
         "/^Makefile\\.defs$/",
       ],
       matchStrings: [
