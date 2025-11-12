@@ -67,6 +67,7 @@ func WithLayer4TCP() Layer4Option {
 
 // WithLayer4TCPSourcePort specifies the TCP source port for Layer4. Only
 // useful in conjunction with WithLayer4TCP.
+//
 // Deprecated: use WithLayer4SourcePort instead.
 func WithLayer4TCPSourcePort(port uint32) Layer4Option {
 	return WithLayer4SourcePort(port)
@@ -74,6 +75,7 @@ func WithLayer4TCPSourcePort(port uint32) Layer4Option {
 
 // WithLayer4TCPDestinationPort specifies the TCP destination port for Layer4.
 // Only useful in conjunction with WithLayer4TCP.
+//
 // Deprecated: use WithLayer4DestinationPort instead.
 func WithLayer4TCPDestinationPort(port uint32) Layer4Option {
 	return WithLayer4DestinationPort(port)
@@ -106,6 +108,7 @@ func WithLayer4UDP() Layer4Option {
 
 // WithLayer4UDPSourcePort specifies the UDP source port. Only useful in
 // conjunction with WithLayer4UDP.
+//
 // Deprecated: use WithLayer4SourcePort instead.
 func WithLayer4UDPSourcePort(port uint32) Layer4Option {
 	return WithLayer4SourcePort(port)
@@ -113,6 +116,7 @@ func WithLayer4UDPSourcePort(port uint32) Layer4Option {
 
 // WithLayer4UDPDestinationPort specifies the UDP destination port. Only useful
 // in conjunction with WithLayer4UDP.
+//
 // Deprecated: use WithLayer4DestinationPort instead.
 func WithLayer4UDPDestinationPort(port uint32) Layer4Option {
 	return WithLayer4DestinationPort(port)
