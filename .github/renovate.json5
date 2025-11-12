@@ -27,6 +27,9 @@
   baseBranchPatterns: [
     'main',
   ],
+  postUpdateOptions: [
+    'gomodTidy',
+  ],
   packageRules: [
     {
       groupName: 'all go module dependencies',
