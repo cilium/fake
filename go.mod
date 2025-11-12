@@ -1,6 +1,9 @@
 module github.com/cilium/fake
 
-go 1.23
+// renovate: datasource=golang-version depName=go
+go 1.24.0
+
+toolchain go1.24.6
 
 require github.com/stretchr/testify v1.11.1
 
