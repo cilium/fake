@@ -72,4 +72,16 @@
       ],
     },
   ],
+  customManagers: [
+    {
+      customType: "regex",
+      managerFilePatterns: [
+        "/^Makefile\\.defs$/",
+      ],
+      matchStrings: [
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+.+_VERSION\\s*\\??=\\s*(?<currentValue>[a-z0-9-\\._]+)\\s+.+_DIGEST\\s*\\??=\\s*(?<currentDigest>sha256:[a-f0-9]+)",
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+.+_VERSION\\s*=\\s*(?<currentValue>[a-z0-9-\\._]+)(@(?<currentDigest>sha256:[a-f0-9]+))?",
+      ],
+    },
+  ],
 }
