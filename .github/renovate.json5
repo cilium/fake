@@ -74,6 +74,19 @@
         'release-note/ci',
       ],
     },
+    {
+      groupName: 'Go',
+      matchDepNames: [
+        'docker.io/library/golang',
+        'library/golang',
+        'go',
+        'golang',
+      ],
+      addLabels: [
+        'area/build',
+        'release-note/misc',
+      ],
+    },
   ],
   customManagers: [
     {
