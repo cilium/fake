@@ -6,7 +6,7 @@ go 1.24.0
 toolchain go1.24.6
 
 require (
-	github.com/cilium/cilium v1.16.9
+	github.com/cilium/cilium v1.18.4
 	github.com/cilium/fake v0.7.0
 	github.com/google/go-cmp v0.7.0
 	github.com/google/uuid v1.6.0
@@ -17,20 +17,21 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
+	github.com/kr/text v0.2.0 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/text v0.31.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250212204824-5a70512c5d8b // indirect
-	google.golang.org/grpc v1.70.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250721164621-a45f3dfb1074 // indirect
+	google.golang.org/grpc v1.74.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 // Replace directives from github.com/cilium/cilium. Keep in sync when updating Cilium!
 replace (
-	go.universe.tf/metallb => github.com/cilium/metallb v0.1.1-0.20220829170633-5d7dfb1129f7
+	go.universe.tf/metallb => github.com/cilium/metallb v0.9.6
 	// Using private fork of controller-tools. See commit msg for more context
 	// as to why we are using a private fork.
-	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.8.0-2
+	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.12.1
 )
 
 replace github.com/cilium/fake => ../
