@@ -27,10 +27,10 @@ require (
 
 // Replace directives from github.com/cilium/cilium. Keep in sync when updating Cilium!
 replace (
-	go.universe.tf/metallb => github.com/cilium/metallb v0.1.1-0.20220829170633-5d7dfb1129f7
+	go.universe.tf/metallb => github.com/cilium/metallb v0.9.6
 	// Using private fork of controller-tools. See commit msg for more context
 	// as to why we are using a private fork.
-	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.8.0-2
+	sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.12.1
 )
 
 replace github.com/cilium/fake => ../
