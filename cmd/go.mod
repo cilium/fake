@@ -1,9 +1,7 @@
 module github.com/cilium/fake/cmd
 
 // renovate: datasource=golang-version depName=go
-go 1.24.0
-
-toolchain go1.24.6
+go 1.25.5
 
 require (
 	github.com/cilium/cilium v1.16.9
