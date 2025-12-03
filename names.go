@@ -3,52 +3,46 @@
 
 package fake
 
-import (
-	"fmt"
-	"math/rand/v2"
-)
-
-// Adjective generates a random adjective.
-func Adjective() string {
-	return adjectives[rand.IntN(len(adjectives))]
+// Adjective implements the Faker interface for faker.
+func (f *faker) Adjective() string {
+	return adjectives[f.IntN(len(adjectives))]
 }
 
-// AlphaNum generates a random alphanumeric string of the given length.
-func AlphaNum(length int) string {
+// AlphaNum implements the Faker interface for faker.
+func (f *faker) AlphaNum(length int) string {
 	b := make([]byte, length)
 	for i := range b {
-		b[i] = alphanum[rand.IntN(len(alphanum))]
+		b[i] = alphanum[f.IntN(len(alphanum))]
 	}
 	return string(b)
 }
 
-// App generates a random software application name.
-func App() string {
-	return apps[rand.IntN(len(apps))]
+// App implements the Faker interface for faker.
+func (f *faker) App() string {
+	return apps[f.IntN(len(apps))]
 }
 
-// Noun generates a random noun.
-func Noun() string {
-	return nouns[rand.IntN(len(nouns))]
+// Noun implements the Faker interface for faker.
+func (f *faker) Noun() string {
+	return nouns[f.IntN(len(nouns))]
 }
 
-// Name generates a random name.
-func Name() string {
-	return fmt.Sprintf("%s_%s", Adjective(), Noun())
+// Name implements the Faker interface for faker.
+func (f *faker) Name() string {
+	return join3(f.Adjective(), "_", f.Noun())
 }
 
-// Names generates a random set of names. It panics if n < 0.
-func Names(n int) []string {
-	n = rand.IntN(n + 1)
+// Names implements the Faker interface for faker.
+func (f *faker) Names(n int) []string {
+	n = f.IntN(n + 1)
 	names := make([]string, n)
 	for i := range n {
-		names[i] = Name()
+		names[i] = f.Name()
 	}
 	return names
 }
 
-// DeploymentTier generates a random software deployment tier such as prod,
-// staging, etc.
-func DeploymentTier() string {
-	return tiers[rand.IntN(len(tiers))]
+// DeploymentTier implements the Faker interface for faker.
+func (f *faker) DeploymentTier() string {
+	return tiers[f.IntN(len(tiers))]
 }

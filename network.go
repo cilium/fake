@@ -4,9 +4,7 @@
 package fake
 
 import (
-	crand "crypto/rand"
 	"fmt"
-	"math/rand/v2"
 	"net"
 )
 
@@ -14,10 +12,10 @@ import (
 // support 6 bytes MAC.
 const macLen = 6
 
-// MAC generates a random MAC address.
-func MAC() string {
+// MAC implements the Faker interface for faker.
+func (f *faker) MAC() string {
 	hw := make(net.HardwareAddr, macLen)
-	_, _ = crand.Read(hw)
+	_, _ = f.Read(hw)
 	return hw.String()
 }
 
@@ -65,9 +63,8 @@ func WithIPCIDR(cidr string) IPOption {
 	})
 }
 
-// IP generates a random IP address. Options may be provided to specify a
-// network for the address or if it should be IPv4 or IPv6.
-func IP(options ...IPOption) string {
+// IP implements the Faker interface for faker.
+func (f *faker) IP(options ...IPOption) string {
 	opts := ipOptions{}
 	for _, opt := range options {
 		opt.apply(&opts)
@@ -78,20 +75,20 @@ func IP(options ...IPOption) string {
 		switch {
 		case opts.v4 == opts.v6:
 			sizes := []int{net.IPv4len, net.IPv6len}
-			size = sizes[rand.IntN(len(sizes))]
+			size = sizes[f.IntN(len(sizes))]
 		case opts.v4:
 			size = net.IPv4len
 		case opts.v6:
 			size = net.IPv6len
 		}
 		ip := make([]byte, size)
-		_, _ = crand.Read(ip)
+		_, _ = f.Read(ip)
 		return net.IP(ip).String()
 	}
 
 	size = len(opts.network.Mask)
 	raw := make([]byte, size)
-	_, _ = crand.Read(raw)
+	_, _ = f.Read(raw)
 	ip := opts.network.IP
 	for i, v := range raw {
 		ip[i] += v &^ opts.network.Mask[i]
@@ -147,9 +144,9 @@ func WithPortDynamic() PortOption {
 	})
 }
 
-// Port generates a random port number between 1 and 65535 or in the range
+// Port implements the Faker interface for faker.
 // specified by the given option.
-func Port(options ...PortOption) uint32 {
+func (f *faker) Port(options ...PortOption) uint32 {
 	opts := portOptions{
 		min: 1,
 		max: 65_535,
@@ -157,5 +154,5 @@ func Port(options ...PortOption) uint32 {
 	for _, opt := range options {
 		opt.apply(&opts)
 	}
-	return uint32(rand.IntN(opts.max+1-opts.min) + opts.min) //nolint:gosec
+	return uint32(f.IntN(opts.max+1-opts.min) + opts.min) //nolint:gosec
 }
