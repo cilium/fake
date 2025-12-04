@@ -14,7 +14,7 @@ jobs:
   main:
     strategy:
       matrix:
-        go-version: ["1.24", "1.25"]
+        go-version: ["oldstable", "stable"]
     runs-on: ubuntu-latest
     steps:
     - name: Install Go
@@ -42,7 +42,7 @@ jobs:
   cmd:
     strategy:
       matrix:
-        go-version: ["1.24", "1.25"]
+        go-version: ["oldstable", "stable"]
     runs-on: ubuntu-latest
     steps:
     - name: Install Go
@@ -74,7 +74,7 @@ jobs:
   flow:
     strategy:
       matrix:
-        go-version: ["1.24", "1.25"]
+        go-version: ["oldstable", "stable"]
     runs-on: ubuntu-latest
     steps:
     - name: Install Go
