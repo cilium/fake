@@ -8,5 +8,5 @@ BINDIR ?= /usr/local/bin
 TARGET := fake
 
 # renovate: datasource=github-releases depName=golangci/golangci-lint
-GOLANGCILINT_WANT_VERSION = 2.7.2
+GOLANGCILINT_WANT_VERSION = 2.8.0
 GOLANGCILINT_VERSION = $(shell golangci-lint version --short 2>/dev/null)
