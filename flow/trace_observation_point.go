@@ -23,6 +23,8 @@ var allTraceObservationPoints = []flowpb.TraceObservationPoint{
 	flowpb.TraceObservationPoint_FROM_OVERLAY,
 	flowpb.TraceObservationPoint_FROM_NETWORK,
 	flowpb.TraceObservationPoint_TO_NETWORK,
+	flowpb.TraceObservationPoint_FROM_CRYPTO,
+	flowpb.TraceObservationPoint_TO_CRYPTO,
 }
 
 // TraceObservationPoint generates a random TraceObservationPoint.
@@ -36,10 +38,10 @@ var allTraceReasons = []flowpb.TraceReason{
 	flowpb.TraceReason_ESTABLISHED,
 	flowpb.TraceReason_REPLY,
 	flowpb.TraceReason_RELATED,
-	// flowpb.TraceReason_REOPENED -- Deprecated
+	// flowpb.TraceReason_REOPENED, -- Deprecated
 	flowpb.TraceReason_SRV6_ENCAP,
 	flowpb.TraceReason_SRV6_DECAP,
-	flowpb.TraceReason_ENCRYPT_OVERLAY,
+	// flowpb.TraceReason_ENCRYPT_OVERLAY, -- Deprecated
 }
 
 // TraceReason generates a random TraceReason.
