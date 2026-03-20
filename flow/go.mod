@@ -3,12 +3,12 @@ module github.com/cilium/fake/flow
 go 1.25.0
 
 require (
-	github.com/cilium/cilium v1.19.1
+	github.com/cilium/cilium v1.19.2
 	github.com/cilium/fake v0.7.0
 	github.com/google/go-cmp v0.7.0
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/net v0.51.0
+	golang.org/x/net v0.52.0
 	google.golang.org/protobuf v1.36.11
 )
 
@@ -139,6 +139,6 @@ replace sigs.k8s.io/controller-tools => github.com/cilium/controller-tools v0.16
 
 // Using private fork of gobgp. See commit msg for more context as to why we
 // are using a private fork.
-replace github.com/osrg/gobgp/v3 => github.com/cilium/gobgp/v3 v3.0.0-20260130142103-27e5da2a39e6
+replace github.com/osrg/gobgp/v3 => github.com/cilium/gobgp/v3 2c4e905b1198
 
 replace github.com/cilium/fake => ../
