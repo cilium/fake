@@ -5,14 +5,14 @@ package fake
 
 import (
 	"fmt"
-	"math/rand"
+	"math/rand/v2"
 )
 
 // K8sLabels generates a random set of Kubernetes labels.
 func K8sLabels() []string {
 	var l []string
 	for _, name := range labels {
-		if rand.Intn(2) == 0 { // 50% chance of picking up this label
+		if rand.IntN(2) == 0 { // 50% chance of picking up this label
 			l = append(l, name+"="+App())
 		}
 	}
@@ -21,8 +21,8 @@ func K8sLabels() []string {
 
 // K8sNamespace generates a random Kubernetes namespace name.
 func K8sNamespace() string {
-	if rand.Intn(2) == 0 {
-		return namespaces[rand.Intn(len(namespaces))]
+	if rand.IntN(2) == 0 {
+		return namespaces[rand.IntN(len(namespaces))]
 	}
 	return fmt.Sprintf("%s-%s", App(), DeploymentTier())
 }

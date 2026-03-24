@@ -4,7 +4,7 @@
 package flow
 
 import (
-	"math/rand"
+	"math/rand/v2"
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 	"github.com/cilium/fake"
@@ -107,13 +107,13 @@ var workloadKinds []string = []string{
 
 func fakeWorkloads() map[string]string {
 	workloads := map[string]string{
-		fake.App(): workloadKinds[rand.Intn(len(workloadKinds))],
+		fake.App(): workloadKinds[rand.IntN(len(workloadKinds))],
 	}
-	if rand.Intn(10) == 0 { // 10% chance of having more than one workload.
-		workloads[fake.App()] = workloadKinds[rand.Intn(len(workloadKinds))]
+	if rand.IntN(10) == 0 { // 10% chance of having more than one workload.
+		workloads[fake.App()] = workloadKinds[rand.IntN(len(workloadKinds))]
 	}
-	if rand.Intn(100) == 0 { // 1% chance of having more than two workloads.
-		workloads[fake.App()] = workloadKinds[rand.Intn(len(workloadKinds))]
+	if rand.IntN(100) == 0 { // 1% chance of having more than two workloads.
+		workloads[fake.App()] = workloadKinds[rand.IntN(len(workloadKinds))]
 	}
 	return workloads
 }

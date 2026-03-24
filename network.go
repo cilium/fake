@@ -4,8 +4,9 @@
 package fake
 
 import (
+	crand "crypto/rand"
 	"fmt"
-	"math/rand"
+	"math/rand/v2"
 	"net"
 )
 
@@ -16,7 +17,7 @@ const macLen = 6
 // MAC generates a random MAC address.
 func MAC() string {
 	hw := make(net.HardwareAddr, macLen)
-	_, _ = rand.Read(hw)
+	_, _ = crand.Read(hw)
 	return hw.String()
 }
 
@@ -77,20 +78,20 @@ func IP(options ...IPOption) string {
 		switch {
 		case opts.v4 == opts.v6:
 			sizes := []int{net.IPv4len, net.IPv6len}
-			size = sizes[rand.Intn(len(sizes))]
+			size = sizes[rand.IntN(len(sizes))]
 		case opts.v4:
 			size = net.IPv4len
 		case opts.v6:
 			size = net.IPv6len
 		}
 		ip := make([]byte, size)
-		_, _ = rand.Read(ip)
+		_, _ = crand.Read(ip)
 		return net.IP(ip).String()
 	}
 
 	size = len(opts.network.Mask)
 	raw := make([]byte, size)
-	_, _ = rand.Read(raw)
+	_, _ = crand.Read(raw)
 	ip := opts.network.IP
 	for i, v := range raw {
 		ip[i] += v &^ opts.network.Mask[i]
@@ -156,5 +157,5 @@ func Port(options ...PortOption) uint32 {
 	for _, opt := range options {
 		opt.apply(&opts)
 	}
-	return uint32(rand.Intn(opts.max+1-opts.min) + opts.min) //nolint:gosec
+	return uint32(rand.IntN(opts.max+1-opts.min) + opts.min) //nolint:gosec
 }

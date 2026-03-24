@@ -4,7 +4,7 @@
 package flow
 
 import (
-	"math/rand"
+	"math/rand/v2"
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 )

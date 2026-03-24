@@ -4,12 +4,12 @@
 package flow
 
 import (
-	"math/rand"
+	"math/rand/v2"
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 )
 
 // TrafficDirection generates a random TrafficDirection.
 func TrafficDirection() flowpb.TrafficDirection {
-	return flowpb.TrafficDirection(rand.Intn(len(flowpb.TrafficDirection_name))) //nolint:gosec
+	return flowpb.TrafficDirection(rand.IntN(len(flowpb.TrafficDirection_name))) //nolint:gosec
 }

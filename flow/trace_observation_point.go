@@ -4,7 +4,7 @@
 package flow
 
 import (
-	"math/rand"
+	"math/rand/v2"
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 )
@@ -29,7 +29,7 @@ var allTraceObservationPoints = []flowpb.TraceObservationPoint{
 
 // TraceObservationPoint generates a random TraceObservationPoint.
 func TraceObservationPoint() flowpb.TraceObservationPoint {
-	return allTraceObservationPoints[rand.Intn(len(allTraceObservationPoints))]
+	return allTraceObservationPoints[rand.IntN(len(allTraceObservationPoints))]
 }
 
 var allTraceReasons = []flowpb.TraceReason{
@@ -46,5 +46,5 @@ var allTraceReasons = []flowpb.TraceReason{
 
 // TraceReason generates a random TraceReason.
 func TraceReason() flowpb.TraceReason {
-	return allTraceReasons[rand.Intn(len(allTraceReasons))]
+	return allTraceReasons[rand.IntN(len(allTraceReasons))]
 }

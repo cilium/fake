@@ -95,12 +95,6 @@ linters:
 
       - linters: [gosec]
         text: "G404" # Use of weak random number generator (math/rand instead of crypto/rand)
-      # TODO: remove the staticcheck exceptions below once we have switched to
-      # using crypto/rand instead of math/rand
-      - linters: [staticcheck]
-        text: "SA1019: rand.Read has been deprecated since Go 1.20 because it shouldn't be used"
-      - linters: [staticcheck]
-        text: "SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0"
 issues:
   # Set to 0 to disable (default is 3)
   max-same-issues: 0

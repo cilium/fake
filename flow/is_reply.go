@@ -4,7 +4,7 @@
 package flow
 
 import (
-	"math/rand"
+	"math/rand/v2"
 
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
@@ -12,7 +12,7 @@ import (
 // IsReply returns either nil, or a wrapped boolean value reprenting true, or a
 // wrapped boolean value reprenting false, with equal probability.
 func IsReply() *wrapperspb.BoolValue {
-	switch rand.Intn(3) {
+	switch rand.IntN(3) {
 	case 0:
 		return &wrapperspb.BoolValue{Value: false}
 	case 1:
