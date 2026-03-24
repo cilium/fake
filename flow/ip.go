@@ -4,8 +4,6 @@
 package flow
 
 import (
-	"math/rand/v2"
-
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 	"github.com/cilium/fake"
 )
@@ -40,22 +38,23 @@ func WithSourceNATProbability(probability float64) IPOption {
 	})
 }
 
-func IP(options ...IPOption) *flowpb.IP {
+// IP implements FlowFaker for flowfaker.
+func (f *flowfaker) IP(options ...IPOption) *flowpb.IP {
 	opts := ipOptions{}
 	for _, opt := range options {
 		opt.apply(&opts)
 	}
-	if p := rand.Float64(); p < opts.sourceNATProbability {
+	if p := f.Float64(); p < opts.sourceNATProbability {
 		return &flowpb.IP{
-			Source:       fake.IP(fake.WithIPCIDR("10.0.0.0/8")),
-			SourceXlated: fake.IP(fake.WithIPCIDR("172.16.0.0/12")),
-			Destination:  fake.IP(fake.WithIPCIDR("172.16.0.0/12")),
+			Source:       f.Faker.IP(fake.WithIPCIDR("10.0.0.0/8")),
+			SourceXlated: f.Faker.IP(fake.WithIPCIDR("172.16.0.0/12")),
+			Destination:  f.Faker.IP(fake.WithIPCIDR("172.16.0.0/12")),
 			IpVersion:    flowpb.IPVersion_IPv4,
 		}
 	} else {
 		return &flowpb.IP{
-			Source:      fake.IP(fake.WithIPCIDR("10.0.0.0/8")),
-			Destination: fake.IP(fake.WithIPCIDR("10.0.0.0/8")),
+			Source:      f.Faker.IP(fake.WithIPCIDR("10.0.0.0/8")),
+			Destination: f.Faker.IP(fake.WithIPCIDR("10.0.0.0/8")),
 			IpVersion:   flowpb.IPVersion_IPv4,
 		}
 	}

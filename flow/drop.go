@@ -4,8 +4,6 @@
 package flow
 
 import (
-	"math/rand/v2"
-
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 )
 
@@ -50,9 +48,12 @@ func WithDropReasonSubSet(dropReasons []flowpb.DropReason) DropReasonOption {
 	})
 }
 
-// DropReason generates a DropReason. Options may be provided to customize the
-// drop reasons to return.
-func DropReason(options ...DropReasonOption) flowpb.DropReason {
+// DropReason implements FlowFaker for flowfaker.
+func (f *flowfaker) DropReason(options ...DropReasonOption) flowpb.DropReason {
+	// FIXME: evaluating all the options here for a single drop reason returned
+	// feels like we're paying a ton of overhead as soon as an option is given.
+	// Maybe consider moving this to the fake constructor, with maybe override
+	// possible on generation for special cases only?
 	opts := dropReasonOptions{
 		nonDropProbability: 0.999,
 	}
@@ -60,10 +61,11 @@ func DropReason(options ...DropReasonOption) flowpb.DropReason {
 		opt.apply(&opts)
 	}
 
-	if f := rand.Float64(); f < opts.nonDropProbability {
+	if r := f.Float64(); r < opts.nonDropProbability {
 		return flowpb.DropReason_DROP_REASON_UNKNOWN
 	}
 
+	// FIXME: extract the static default set to be computed only once.
 	if opts.set == nil {
 		opts.set = make([]flowpb.DropReason, 0, len(flowpb.DropReason_name)-1)
 		for k := range flowpb.DropReason_name {
@@ -72,5 +74,5 @@ func DropReason(options ...DropReasonOption) flowpb.DropReason {
 			}
 		}
 	}
-	return opts.set[rand.IntN(len(opts.set))]
+	return opts.set[f.IntN(len(opts.set))]
 }

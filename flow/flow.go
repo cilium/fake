@@ -4,12 +4,10 @@
 package flow
 
 import (
-	"math/rand/v2"
 	"time"
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 	"github.com/cilium/cilium/pkg/monitor/api"
-	"github.com/cilium/fake"
 	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -182,21 +180,21 @@ func WithFlowSourceNATProbability(probability float64) Option {
 }
 
 // New generates a random flow. Options may be provided to customize the flow.
-func New(options ...Option) *flowpb.Flow {
+func (f *flowfaker) NewFlow(options ...Option) *flowpb.Flow {
 	opts := flowOptions{
 		time:                    time.Now().UTC(),
-		verdict:                 Verdict(),
-		authType:                AuthType(),
+		verdict:                 f.Verdict(),
+		authType:                f.AuthType(),
 		typ:                     flowpb.FlowType_L3_L4,
-		nodeName:                fake.K8sNodeName(),
-		nodeLabels:              fake.K8sLabels(),
+		nodeName:                f.K8sNodeName(),
+		nodeLabels:              f.K8sLabels(),
 		clusterName:             "default",
-		sourceNames:             fake.Names(5),
-		destNames:               fake.Names(5),
-		epSource:                Endpoint(),
-		epDest:                  Endpoint(),
+		sourceNames:             f.Names(5),
+		destNames:               f.Names(5),
+		epSource:                f.Endpoint(),
+		epDest:                  f.Endpoint(),
 		traceContextProbability: 0.1,
-		verdictByPolicies:       Policies(),
+		verdictByPolicies:       f.Policies(),
 		sourceNATProbability:    0.1,
 	}
 	for _, opt := range options {
@@ -212,11 +210,11 @@ func New(options ...Option) *flowpb.Flow {
 
 	if opts.typ == flowpb.FlowType_L3_L4 {
 		if opts.ip == nil {
-			opts.ip = IP(WithSourceNATProbability(opts.sourceNATProbability))
+			opts.ip = f.IP(WithSourceNATProbability(opts.sourceNATProbability))
 		}
 		if opts.l4 == nil {
 			var l4Option Layer4Option
-			switch rand.IntN(5) {
+			switch f.IntN(5) {
 			case 0:
 				l4Option = WithLayer4TCP()
 			case 1:
@@ -228,15 +226,15 @@ func New(options ...Option) *flowpb.Flow {
 			case 4:
 				l4Option = WithLayer4ICMPv6()
 			}
-			opts.l4 = Layer4(l4Option)
+			opts.l4 = f.Layer4(l4Option)
 		}
 	}
 
 	// If an IP is defined, the Ethernet part shall be as well
 	if opts.ip != nil && opts.ethernet == nil {
 		opts.ethernet = &flowpb.Ethernet{
-			Source:      fake.MAC(),
-			Destination: fake.MAC(),
+			Source:      f.MAC(),
+			Destination: f.MAC(),
 		}
 	}
 
@@ -252,8 +250,8 @@ func New(options ...Option) *flowpb.Flow {
 	// given probability. However, as the library doesn't support L7 flows yet,
 	// add trace context unconditionally.
 	var tc *flowpb.TraceContext
-	if p := rand.Float64(); p < opts.traceContextProbability {
-		tc = TraceContext()
+	if p := f.Float64(); p < opts.traceContextProbability {
+		tc = f.TraceContext()
 	}
 
 	flow := &flowpb.Flow{
@@ -274,19 +272,19 @@ func New(options ...Option) *flowpb.Flow {
 		DestinationNames: opts.destNames,
 		// TODO: L7
 		// NOTE: don't populate Reply as it is deprecated.
-		EventType:             EventType(),
-		SourceService:         Service(),
-		DestinationService:    Service(),
-		TrafficDirection:      TrafficDirection(),
-		PolicyMatchType:       uint32(rand.IntN(5)), //nolint:gosec
-		TraceObservationPoint: TraceObservationPoint(),
-		TraceReason:           TraceReason(),
+		EventType:             f.EventType(),
+		SourceService:         f.Service(),
+		DestinationService:    f.Service(),
+		TrafficDirection:      f.TrafficDirection(),
+		PolicyMatchType:       uint32(f.IntN(5)), //nolint:gosec
+		TraceObservationPoint: f.TraceObservationPoint(),
+		TraceReason:           f.TraceReason(),
 		DropReasonDesc:        opts.dropReason,
-		IsReply:               IsReply(),
+		IsReply:               f.IsReply(),
 		TraceContext:          tc,
-		SockXlatePoint:        flowpb.SocketTranslationPoint(rand.IntN(len(flowpb.SocketTranslationPoint_name))), //nolint:gosec
-		SocketCookie:          rand.Uint64(),
-		CgroupId:              rand.Uint64(),
+		SockXlatePoint:        flowpb.SocketTranslationPoint(f.IntN(len(flowpb.SocketTranslationPoint_name))), //nolint:gosec
+		SocketCookie:          f.Uint64(),
+		CgroupId:              f.Uint64(),
 		// NOTE: don't populate Summary as it is deprecated.
 	}
 

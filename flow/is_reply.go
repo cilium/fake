@@ -4,15 +4,12 @@
 package flow
 
 import (
-	"math/rand/v2"
-
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
-// IsReply returns either nil, or a wrapped boolean value reprenting true, or a
-// wrapped boolean value reprenting false, with equal probability.
-func IsReply() *wrapperspb.BoolValue {
-	switch rand.IntN(3) {
+// IsReply implements FlowFaker for flowfaker.
+func (f *flowfaker) IsReply() *wrapperspb.BoolValue {
+	switch f.IntN(3) {
 	case 0:
 		return &wrapperspb.BoolValue{Value: false}
 	case 1:

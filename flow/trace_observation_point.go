@@ -4,8 +4,6 @@
 package flow
 
 import (
-	"math/rand/v2"
-
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 )
 
@@ -27,24 +25,7 @@ var allTraceObservationPoints = []flowpb.TraceObservationPoint{
 	flowpb.TraceObservationPoint_TO_CRYPTO,
 }
 
-// TraceObservationPoint generates a random TraceObservationPoint.
-func TraceObservationPoint() flowpb.TraceObservationPoint {
-	return allTraceObservationPoints[rand.IntN(len(allTraceObservationPoints))]
-}
-
-var allTraceReasons = []flowpb.TraceReason{
-	flowpb.TraceReason_TRACE_REASON_UNKNOWN,
-	flowpb.TraceReason_NEW,
-	flowpb.TraceReason_ESTABLISHED,
-	flowpb.TraceReason_REPLY,
-	flowpb.TraceReason_RELATED,
-	// flowpb.TraceReason_REOPENED, -- Deprecated
-	flowpb.TraceReason_SRV6_ENCAP,
-	flowpb.TraceReason_SRV6_DECAP,
-	// flowpb.TraceReason_ENCRYPT_OVERLAY, -- Deprecated
-}
-
-// TraceReason generates a random TraceReason.
-func TraceReason() flowpb.TraceReason {
-	return allTraceReasons[rand.IntN(len(allTraceReasons))]
+// TraceObservationPoint implements FlowFaker for flowfaker.
+func (f *flowfaker) TraceObservationPoint() flowpb.TraceObservationPoint {
+	return allTraceObservationPoints[f.IntN(len(allTraceObservationPoints))]
 }
