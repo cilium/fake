@@ -4,8 +4,9 @@
 package flow
 
 import (
+	crand "crypto/rand"
 	"encoding/hex"
-	"math/rand"
+	"math/rand/v2"
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 )
@@ -45,7 +46,7 @@ func TraceContext(options ...TraceContextOption) *flowpb.TraceContext {
 	}
 	traceID := fakeTraceID()
 	if len(opts.traceIDs) != 0 {
-		traceID = opts.traceIDs[rand.Intn(len(opts.traceIDs))]
+		traceID = opts.traceIDs[rand.IntN(len(opts.traceIDs))]
 	}
 	return &flowpb.TraceContext{
 		Parent: &flowpb.TraceParent{
@@ -60,7 +61,7 @@ func TraceContext(options ...TraceContextOption) *flowpb.TraceContext {
 func fakeTraceID() string {
 	var tid [traceIDLen]byte
 	for !isValidTraceID(tid[:]) {
-		_, _ = rand.Read(tid[:])
+		_, _ = crand.Read(tid[:])
 	}
 	return hex.EncodeToString(tid[:])
 }

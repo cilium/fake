@@ -4,12 +4,12 @@
 package flow
 
 import (
-	"math/rand"
+	"math/rand/v2"
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 )
 
 // AuthType generates a random AuthType.
 func AuthType() flowpb.AuthType {
-	return flowpb.AuthType(rand.Intn(len(flowpb.AuthType_name))) //nolint:gosec
+	return flowpb.AuthType(rand.IntN(len(flowpb.AuthType_name))) //nolint:gosec
 }

@@ -4,7 +4,7 @@
 package flow
 
 import (
-	"math/rand"
+	"math/rand/v2"
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 	"github.com/cilium/fake"
@@ -12,7 +12,7 @@ import (
 
 // Policies generates a list of random policy references.
 func Policies() []*flowpb.Policy {
-	n := rand.Intn(4)
+	n := rand.IntN(4)
 	policies := make([]*flowpb.Policy, n)
 	for i := range n {
 		policies[i] = &flowpb.Policy{

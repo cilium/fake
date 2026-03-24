@@ -7,7 +7,7 @@ package flow
 import (
 	"errors"
 	"fmt"
-	"math/rand"
+	"math/rand/v2"
 	"net"
 	"time"
 
@@ -135,9 +135,9 @@ func runFlows(p *printer.Printer) error {
 
 	for i := range opts.count {
 		// used to get a random node name
-		idx := rand.Intn(len(nodesIPs))
+		idx := rand.IntN(len(nodesIPs))
 		// add a small amount of jitter to the timestamps so they don't have perfect time gaps
-		jitter := rand.Int63n(int64(winRange))
+		jitter := rand.Int64N(int64(winRange))
 		t := since.Add(time.Duration(i)*winRange + time.Duration(jitter))
 		flow := fakeflow.New(
 			fakeflow.WithFlowTime(t),

@@ -5,31 +5,31 @@ package fake
 
 import (
 	"fmt"
-	"math/rand"
+	"math/rand/v2"
 )
 
 // Adjective generates a random adjective.
 func Adjective() string {
-	return adjectives[rand.Intn(len(adjectives))]
+	return adjectives[rand.IntN(len(adjectives))]
 }
 
 // AlphaNum generates a random alphanumeric string of the given length.
 func AlphaNum(length int) string {
 	b := make([]byte, length)
 	for i := range b {
-		b[i] = alphanum[rand.Intn(len(alphanum))]
+		b[i] = alphanum[rand.IntN(len(alphanum))]
 	}
 	return string(b)
 }
 
 // App generates a random software application name.
 func App() string {
-	return apps[rand.Intn(len(apps))]
+	return apps[rand.IntN(len(apps))]
 }
 
 // Noun generates a random noun.
 func Noun() string {
-	return nouns[rand.Intn(len(nouns))]
+	return nouns[rand.IntN(len(nouns))]
 }
 
 // Name generates a random name.
@@ -39,7 +39,7 @@ func Name() string {
 
 // Names generates a random set of names. It panics if n < 0.
 func Names(n int) []string {
-	n = rand.Intn(n + 1)
+	n = rand.IntN(n + 1)
 	names := make([]string, n)
 	for i := range n {
 		names[i] = Name()
@@ -50,5 +50,5 @@ func Names(n int) []string {
 // DeploymentTier generates a random software deployment tier such as prod,
 // staging, etc.
 func DeploymentTier() string {
-	return tiers[rand.Intn(len(tiers))]
+	return tiers[rand.IntN(len(tiers))]
 }

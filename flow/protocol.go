@@ -4,7 +4,7 @@
 package flow
 
 import (
-	"math/rand"
+	"math/rand/v2"
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 	"github.com/cilium/fake"
@@ -216,5 +216,5 @@ var tcpFlagsPatterns = []*flowpb.TCPFlags{
 }
 
 func randTCPFlags() *flowpb.TCPFlags {
-	return tcpFlagsPatterns[rand.Intn(len(tcpFlagsPatterns))]
+	return tcpFlagsPatterns[rand.IntN(len(tcpFlagsPatterns))]
 }

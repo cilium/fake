@@ -4,7 +4,7 @@
 package flow
 
 import (
-	"math/rand"
+	"math/rand/v2"
 	"time"
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
@@ -216,7 +216,7 @@ func New(options ...Option) *flowpb.Flow {
 		}
 		if opts.l4 == nil {
 			var l4Option Layer4Option
-			switch rand.Intn(5) {
+			switch rand.IntN(5) {
 			case 0:
 				l4Option = WithLayer4TCP()
 			case 1:
@@ -278,13 +278,13 @@ func New(options ...Option) *flowpb.Flow {
 		SourceService:         Service(),
 		DestinationService:    Service(),
 		TrafficDirection:      TrafficDirection(),
-		PolicyMatchType:       uint32(rand.Intn(5)), //nolint:gosec
+		PolicyMatchType:       uint32(rand.IntN(5)), //nolint:gosec
 		TraceObservationPoint: TraceObservationPoint(),
 		TraceReason:           TraceReason(),
 		DropReasonDesc:        opts.dropReason,
 		IsReply:               IsReply(),
 		TraceContext:          tc,
-		SockXlatePoint:        flowpb.SocketTranslationPoint(rand.Intn(len(flowpb.SocketTranslationPoint_name))), //nolint:gosec
+		SockXlatePoint:        flowpb.SocketTranslationPoint(rand.IntN(len(flowpb.SocketTranslationPoint_name))), //nolint:gosec
 		SocketCookie:          rand.Uint64(),
 		CgroupId:              rand.Uint64(),
 		// NOTE: don't populate Summary as it is deprecated.
