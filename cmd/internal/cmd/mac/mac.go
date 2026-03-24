@@ -34,8 +34,9 @@ func New() *cobra.Command {
 }
 
 func runMACs(cmd *cobra.Command) error {
+	gen := fake.New()
 	for range opts.count {
-		fmt.Fprintln(cmd.OutOrStdout(), fake.MAC())
+		fmt.Fprintln(cmd.OutOrStdout(), gen.MAC())
 	}
 	return nil
 }

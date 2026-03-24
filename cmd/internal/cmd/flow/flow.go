@@ -133,13 +133,14 @@ func runFlows(p *printer.Printer) error {
 		}
 	}
 
+	gen := fakeflow.NewFaker()
 	for i := range opts.count {
 		// used to get a random node name
 		idx := rand.IntN(len(nodesIPs))
 		// add a small amount of jitter to the timestamps so they don't have perfect time gaps
 		jitter := rand.Int64N(int64(winRange))
 		t := since.Add(time.Duration(i)*winRange + time.Duration(jitter))
-		flow := fakeflow.New(
+		flow := gen.NewFlow(
 			fakeflow.WithFlowTime(t),
 			fakeflow.WithFlowNodeName(nodesIPs[idx].name),
 			fakeflow.WithFlowIP(nodesIPs[idx].ip),
