@@ -4,8 +4,6 @@
 package flow
 
 import (
-	"math/rand/v2"
-
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 )
 
@@ -39,10 +37,8 @@ func WithVerdictForwardedProbability(probability float64) VerdictOption {
 	})
 }
 
-// Verdict generates a FORWARDED or DROPPPED verdict randomly. The probability
-// of the verdict being FORWARDED can be set using
-// WithVerdictForwardedProbability.
-func Verdict(options ...VerdictOption) flowpb.Verdict {
+// Verdict implements FlowFaker for flowfaker.
+func (f *flowfaker) Verdict(options ...VerdictOption) flowpb.Verdict {
 	opts := verdictOptions{
 		forwardProbability: 0.999,
 	}
@@ -50,7 +46,7 @@ func Verdict(options ...VerdictOption) flowpb.Verdict {
 		opt.apply(&opts)
 	}
 
-	if f := rand.Float64(); f < opts.forwardProbability {
+	if p := f.Float64(); p < opts.forwardProbability {
 		return flowpb.Verdict_FORWARDED
 	}
 	//TODO: return other verdict types? With which probability?

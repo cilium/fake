@@ -8,7 +8,7 @@ import (
 	"sync"
 	"testing"
 
-	fakeflow "github.com/cilium/fake/flow"
+	"github.com/cilium/fake/flow"
 )
 
 func BenchmarkFakeFlow(b *testing.B) {
@@ -21,8 +21,9 @@ func BenchmarkFakeFlow(b *testing.B) {
 	wg.Add(p)
 	for range p {
 		go func() {
-			for _ = range n {
-				_ = fakeflow.New()
+			f := flow.NewFaker()
+			for range n {
+				_ = f.NewFlow()
 			}
 			wg.Done()
 		}()

@@ -4,8 +4,6 @@
 package flow
 
 import (
-	"math/rand/v2"
-
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 	"github.com/cilium/fake"
 )
@@ -147,12 +145,12 @@ func WithLayer4DestinationPort(port uint32) Layer4Option {
 	})
 }
 
-// Layer4 generates a layer 4. If no option is provided, it will be TCP.
-func Layer4(options ...Layer4Option) *flowpb.Layer4 {
+// Layer4 implements FlowFaker for flowfaker.
+func (f *flowfaker) Layer4(options ...Layer4Option) *flowpb.Layer4 {
 	opts := layer4Options{
-		tcpFlags: randTCPFlags(),
-		srcPort:  fake.Port(fake.WithPortUser()),
-		dstPort:  fake.Port(fake.WithPortUser()),
+		tcpFlags: f.randTCPFlags(),
+		srcPort:  f.Port(fake.WithPortUser()),
+		dstPort:  f.Port(fake.WithPortUser()),
 	}
 	for _, opt := range options {
 		opt.apply(&opts)
@@ -192,13 +190,13 @@ func Layer4(options ...Layer4Option) *flowpb.Layer4 {
 	case opts.icmpv4:
 		return &flowpb.Layer4{
 			Protocol: &flowpb.Layer4_ICMPv4{
-				ICMPv4: ICMPv4(),
+				ICMPv4: f.ICMPv4(),
 			},
 		}
 	case opts.icmpv6:
 		return &flowpb.Layer4{
 			Protocol: &flowpb.Layer4_ICMPv6{
-				ICMPv6: ICMPv6(),
+				ICMPv6: f.ICMPv6(),
 			},
 		}
 	}
@@ -215,6 +213,6 @@ var tcpFlagsPatterns = []*flowpb.TCPFlags{
 	{ACK: true, FIN: true},
 }
 
-func randTCPFlags() *flowpb.TCPFlags {
-	return tcpFlagsPatterns[rand.IntN(len(tcpFlagsPatterns))]
+func (f *flowfaker) randTCPFlags() *flowpb.TCPFlags {
+	return tcpFlagsPatterns[f.IntN(len(tcpFlagsPatterns))]
 }

@@ -4,10 +4,7 @@
 package flow
 
 import (
-	"math/rand/v2"
-
 	flowpb "github.com/cilium/cilium/api/v1/flow"
-	"github.com/cilium/fake"
 )
 
 type endpointOptions struct {
@@ -71,20 +68,20 @@ func WithEndpointWorkloads(workloads map[string]string) EndpointOption {
 
 // Endpoint generates a random Endpoint. Options may be provided to customize
 // the endpoint to return.
-func Endpoint(options ...EndpointOption) *flowpb.Endpoint {
+func (f *flowfaker) Endpoint(options ...EndpointOption) *flowpb.Endpoint {
 	opts := endpointOptions{
-		namespace: fake.K8sNamespace(),
-		podName:   fake.K8sPodName(),
-		labels:    fake.K8sLabels(),
-		workloads: fakeWorkloads(),
+		namespace: f.K8sNamespace(),
+		podName:   f.K8sPodName(),
+		labels:    f.K8sLabels(),
+		workloads: f.fakeWorkloads(),
 	}
 	for _, opt := range options {
 		opt.apply(&opts)
 	}
 
 	return &flowpb.Endpoint{
-		ID:          rand.Uint32(),
-		Identity:    rand.Uint32(),
+		ID:          f.Uint32(),
+		Identity:    f.Uint32(),
 		ClusterName: opts.cluster,
 		Namespace:   opts.namespace,
 		Labels:      opts.labels,
@@ -105,15 +102,15 @@ var workloadKinds []string = []string{
 	"StatefulSet",
 }
 
-func fakeWorkloads() map[string]string {
+func (f *flowfaker) fakeWorkloads() map[string]string {
 	workloads := map[string]string{
-		fake.App(): workloadKinds[rand.IntN(len(workloadKinds))],
+		f.App(): workloadKinds[f.IntN(len(workloadKinds))],
 	}
-	if rand.IntN(10) == 0 { // 10% chance of having more than one workload.
-		workloads[fake.App()] = workloadKinds[rand.IntN(len(workloadKinds))]
+	if f.IntN(10) == 0 { // 10% chance of having more than one workload.
+		workloads[f.App()] = workloadKinds[f.IntN(len(workloadKinds))]
 	}
-	if rand.IntN(100) == 0 { // 1% chance of having more than two workloads.
-		workloads[fake.App()] = workloadKinds[rand.IntN(len(workloadKinds))]
+	if f.IntN(100) == 0 { // 1% chance of having more than two workloads.
+		workloads[f.App()] = workloadKinds[f.IntN(len(workloadKinds))]
 	}
 	return workloads
 }
