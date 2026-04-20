@@ -75,8 +75,3 @@ func New() *cobra.Command {
 
 	return rootCmd
 }
-
-// Execute creates the root command and executes it.
-func Execute() error {
-	return New().Execute()
-}
