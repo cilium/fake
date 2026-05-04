@@ -75,6 +75,16 @@
       ],
     },
     {
+      groupName: 'golangci-lint',
+      matchDepNames: [
+        'golangci/golangci-lint',
+      ],
+      addLabels: [
+        'area/build',
+        'release-note/misc',
+      ],
+    },
+    {
       groupName: 'Go',
       matchDepNames: [
         'docker.io/library/golang',
