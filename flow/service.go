@@ -5,7 +5,6 @@ package flow
 
 import (
 	flowpb "github.com/cilium/cilium/api/v1/flow"
-	"github.com/cilium/fake"
 )
 
 type serviceOptions struct {
@@ -38,12 +37,11 @@ func WithServiceName(name string) ServiceOption {
 	})
 }
 
-// Service generates a random Service. Options may be provided to customize the
-// service to return.
-func Service(options ...ServiceOption) *flowpb.Service {
+// Service implements FlowFaker for flowfaker.
+func (f *flowfaker) Service(options ...ServiceOption) *flowpb.Service {
 	opts := serviceOptions{
-		namespace: fake.K8sNamespace(),
-		name:      fake.Name(),
+		namespace: f.K8sNamespace(),
+		name:      f.Name(),
 	}
 	for _, opt := range options {
 		opt.apply(&opts)

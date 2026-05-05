@@ -40,6 +40,7 @@ var apps = []string{
 	"wordpress",
 	"zookeeper",
 }
+
 var labels = []string{
 	"io.cilium/app",
 	"k8s-app",

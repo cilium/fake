@@ -55,8 +55,9 @@ func runIPs(cmd *cobra.Command) error {
 		ipOptions = append(ipOptions, fake.WithIPCIDR(opts.cidr))
 	}
 
+	gen := fake.New()
 	for range opts.count {
-		fmt.Fprintln(cmd.OutOrStdout(), fake.IP(ipOptions...))
+		fmt.Fprintln(cmd.OutOrStdout(), gen.IP(ipOptions...))
 	}
 	return nil
 }
