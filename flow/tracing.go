@@ -4,9 +4,7 @@
 package flow
 
 import (
-	crand "crypto/rand"
 	"encoding/hex"
-	"math/rand/v2"
 
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 )
@@ -37,16 +35,15 @@ func WithTraceIDs(traceIDs []string) TraceContextOption {
 	})
 }
 
-// TraceContext generates a TraceContext. Options may be provided to customize
-// the returned object.
-func TraceContext(options ...TraceContextOption) *flowpb.TraceContext {
+// TraceContext implements FlowFaker for flowfaker.
+func (f *flowfaker) TraceContext(options ...TraceContextOption) *flowpb.TraceContext {
 	opts := traceContextOptions{}
 	for _, opt := range options {
 		opt.apply(&opts)
 	}
-	traceID := fakeTraceID()
+	traceID := f.fakeTraceID()
 	if len(opts.traceIDs) != 0 {
-		traceID = opts.traceIDs[rand.IntN(len(opts.traceIDs))]
+		traceID = opts.traceIDs[f.IntN(len(opts.traceIDs))]
 	}
 	return &flowpb.TraceContext{
 		Parent: &flowpb.TraceParent{
@@ -58,10 +55,10 @@ func TraceContext(options ...TraceContextOption) *flowpb.TraceContext {
 // fakeTraceID generates a fake trace ID. See the W3C Trace Context
 // specification for details:
 // https://www.w3.org/TR/trace-context/#trace-id
-func fakeTraceID() string {
+func (f *flowfaker) fakeTraceID() string {
 	var tid [traceIDLen]byte
 	for !isValidTraceID(tid[:]) {
-		_, _ = crand.Read(tid[:])
+		_, _ = f.Read(tid[:])
 	}
 	return hex.EncodeToString(tid[:])
 }
