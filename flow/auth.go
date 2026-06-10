@@ -7,7 +7,7 @@ import (
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 )
 
-// AuthType implements FlowFaker for flowfaker.
-func (f *flowfaker) AuthType() flowpb.AuthType {
+// AuthType generates a random authentication type.
+func (f *FlowFaker) AuthType() flowpb.AuthType {
 	return flowpb.AuthType(f.IntN(len(flowpb.AuthType_name))) //nolint:gosec
 }

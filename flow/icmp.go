@@ -26,8 +26,8 @@ var icmpv4Types = []ipv4.ICMPType{
 	ipv4.ICMPTypeExtendedEchoReply,      // Extended Echo Reply
 }
 
-// ICMPv4 implements FlowFaker for flowfaker.
-func (f *flowfaker) ICMPv4() *flowpb.ICMPv4 {
+// ICMPv4 generates a random ICMPv4 type and code pair.
+func (f *FlowFaker) ICMPv4() *flowpb.ICMPv4 {
 	t := icmpv4Types[f.IntN(len(icmpv4Types))]
 
 	// See https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
@@ -108,8 +108,8 @@ var icmpv6Types = []ipv6.ICMPType{
 	ipv6.ICMPTypeExtendedEchoReply,
 }
 
-// ICMPv6 implements FlowFaker for flowfaker.
-func (f *flowfaker) ICMPv6() *flowpb.ICMPv6 {
+// ICMPv6 generates a random ICMPv6 type and code pair.
+func (f *FlowFaker) ICMPv6() *flowpb.ICMPv6 {
 	t := icmpv6Types[f.IntN(len(icmpv6Types))]
 
 	// See https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml

@@ -19,8 +19,8 @@ var allEventTypes = []int32{
 	api.MessageTypeAgent,
 }
 
-// EventType implements FlowFaker for flowfaker.
-func (f *flowfaker) EventType() *flowpb.CiliumEventType {
+// EventType generates a random Cilium event type and sub-type.
+func (f *FlowFaker) EventType() *flowpb.CiliumEventType {
 	typ := allEventTypes[f.IntN(len(allEventTypes))]
 	if typ == api.MessageTypeUnspec {
 		return nil

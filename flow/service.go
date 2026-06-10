@@ -37,8 +37,8 @@ func WithServiceName(name string) ServiceOption {
 	})
 }
 
-// Service implements FlowFaker for flowfaker.
-func (f *flowfaker) Service(options ...ServiceOption) *flowpb.Service {
+// Service generates a random Kubernetes service with namespace and name.
+func (f *FlowFaker) Service(options ...ServiceOption) *flowpb.Service {
 	opts := serviceOptions{
 		namespace: f.K8sNamespace(),
 		name:      f.Name(),

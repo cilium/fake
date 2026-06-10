@@ -145,8 +145,8 @@ func WithLayer4DestinationPort(port uint32) Layer4Option {
 	})
 }
 
-// Layer4 implements FlowFaker for flowfaker.
-func (f *flowfaker) Layer4(options ...Layer4Option) *flowpb.Layer4 {
+// Layer4 generates a random Layer 4 protocol (TCP, UDP, SCTP, or ICMP).
+func (f *FlowFaker) Layer4(options ...Layer4Option) *flowpb.Layer4 {
 	opts := layer4Options{
 		tcpFlags: f.randTCPFlags(),
 		srcPort:  f.Port(fake.WithPortUser()),
@@ -213,6 +213,6 @@ var tcpFlagsPatterns = []*flowpb.TCPFlags{
 	{ACK: true, FIN: true},
 }
 
-func (f *flowfaker) randTCPFlags() *flowpb.TCPFlags {
+func (f *FlowFaker) randTCPFlags() *flowpb.TCPFlags {
 	return tcpFlagsPatterns[f.IntN(len(tcpFlagsPatterns))]
 }

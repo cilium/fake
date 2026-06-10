@@ -7,8 +7,8 @@ import (
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
-// IsReply implements FlowFaker for flowfaker.
-func (f *flowfaker) IsReply() *wrapperspb.BoolValue {
+// IsReply generates a random is-reply value: true, false, or nil (unknown).
+func (f *FlowFaker) IsReply() *wrapperspb.BoolValue {
 	switch f.IntN(3) {
 	case 0:
 		return &wrapperspb.BoolValue{Value: false}

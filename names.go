@@ -3,13 +3,13 @@
 
 package fake
 
-// Adjective implements the Faker interface for faker.
-func (f *faker) Adjective() string {
+// Adjective generates a random adjective.
+func (f *Faker) Adjective() string {
 	return adjectives[f.IntN(len(adjectives))]
 }
 
-// AlphaNum implements the Faker interface for faker.
-func (f *faker) AlphaNum(length int) string {
+// AlphaNum generates a random alphanumeric string of the given length.
+func (f *Faker) AlphaNum(length int) string {
 	b := make([]byte, length)
 	for i := range b {
 		b[i] = alphanum[f.IntN(len(alphanum))]
@@ -17,23 +17,23 @@ func (f *faker) AlphaNum(length int) string {
 	return string(b)
 }
 
-// App implements the Faker interface for faker.
-func (f *faker) App() string {
+// App generates a random software application name.
+func (f *Faker) App() string {
 	return apps[f.IntN(len(apps))]
 }
 
-// Noun implements the Faker interface for faker.
-func (f *faker) Noun() string {
+// Noun generates a random noun.
+func (f *Faker) Noun() string {
 	return nouns[f.IntN(len(nouns))]
 }
 
-// Name implements the Faker interface for faker.
-func (f *faker) Name() string {
+// Name generates a random name composed of an adjective and a noun.
+func (f *Faker) Name() string {
 	return join3(f.Adjective(), "_", f.Noun())
 }
 
-// Names implements the Faker interface for faker.
-func (f *faker) Names(n int) []string {
+// Names generates a random number of names, up to n.
+func (f *Faker) Names(n int) []string {
 	n = f.IntN(n + 1)
 	names := make([]string, n)
 	for i := range n {
@@ -42,7 +42,7 @@ func (f *faker) Names(n int) []string {
 	return names
 }
 
-// DeploymentTier implements the Faker interface for faker.
-func (f *faker) DeploymentTier() string {
+// DeploymentTier generates a random deployment tier such as prod or staging.
+func (f *Faker) DeploymentTier() string {
 	return tiers[f.IntN(len(tiers))]
 }

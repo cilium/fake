@@ -179,8 +179,8 @@ func WithFlowSourceNATProbability(probability float64) Option {
 	})
 }
 
-// New generates a random flow. Options may be provided to customize the flow.
-func (f *flowfaker) NewFlow(options ...Option) *flowpb.Flow {
+// NewFlow generates a random flow. Options may be provided to customize the flow.
+func (f *FlowFaker) NewFlow(options ...Option) *flowpb.Flow {
 	opts := flowOptions{
 		time:                    time.Now().UTC(),
 		verdict:                 f.Verdict(),

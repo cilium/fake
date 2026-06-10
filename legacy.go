@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright Authors of Cilium
 
+// Legacy package-level functions, slow and deprecated. The instance API should
+// be used instead, see [New] and [NewWithSource].
+
 package fake
 
 import "sync"

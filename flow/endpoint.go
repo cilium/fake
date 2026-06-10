@@ -68,7 +68,7 @@ func WithEndpointWorkloads(workloads map[string]string) EndpointOption {
 
 // Endpoint generates a random Endpoint. Options may be provided to customize
 // the endpoint to return.
-func (f *flowfaker) Endpoint(options ...EndpointOption) *flowpb.Endpoint {
+func (f *FlowFaker) Endpoint(options ...EndpointOption) *flowpb.Endpoint {
 	opts := endpointOptions{
 		namespace: f.K8sNamespace(),
 		podName:   f.K8sPodName(),
@@ -102,7 +102,7 @@ var workloadKinds []string = []string{
 	"StatefulSet",
 }
 
-func (f *flowfaker) fakeWorkloads() map[string]string {
+func (f *FlowFaker) fakeWorkloads() map[string]string {
 	workloads := map[string]string{
 		f.App(): workloadKinds[f.IntN(len(workloadKinds))],
 	}

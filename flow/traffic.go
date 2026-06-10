@@ -8,6 +8,6 @@ import (
 )
 
 // TrafficDirection generates a random TrafficDirection.
-func (f *flowfaker) TrafficDirection() flowpb.TrafficDirection {
+func (f *FlowFaker) TrafficDirection() flowpb.TrafficDirection {
 	return flowpb.TrafficDirection(f.IntN(len(flowpb.TrafficDirection_name))) //nolint:gosec
 }

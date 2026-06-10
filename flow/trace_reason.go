@@ -19,7 +19,7 @@ var allTraceReasons = []flowpb.TraceReason{
 	// flowpb.TraceReason_ENCRYPT_OVERLAY, -- Deprecated
 }
 
-// TraceReason implements FlowFaker for flowfaker.
-func (f *flowfaker) TraceReason() flowpb.TraceReason {
+// TraceReason generates a random trace reason.
+func (f *FlowFaker) TraceReason() flowpb.TraceReason {
 	return allTraceReasons[f.IntN(len(allTraceReasons))]
 }

@@ -12,8 +12,8 @@ import (
 // support 6 bytes MAC.
 const macLen = 6
 
-// MAC implements the Faker interface for faker.
-func (f *faker) MAC() string {
+// MAC generates a random 6-byte MAC address.
+func (f *Faker) MAC() string {
 	hw := make(net.HardwareAddr, macLen)
 	_, _ = f.Read(hw)
 	return hw.String()
@@ -63,8 +63,9 @@ func WithIPCIDR(cidr string) IPOption {
 	})
 }
 
-// IP implements the Faker interface for faker.
-func (f *faker) IP(options ...IPOption) string {
+// IP generates a random IP address. Options may be provided to constrain the
+// address to IPv4, IPv6, or a specific CIDR.
+func (f *Faker) IP(options ...IPOption) string {
 	opts := ipOptions{}
 	for _, opt := range options {
 		opt.apply(&opts)
@@ -144,9 +145,9 @@ func WithPortDynamic() PortOption {
 	})
 }
 
-// Port implements the Faker interface for faker.
+// Port generates a random port number between 1 and 65535, or in the range
 // specified by the given option.
-func (f *faker) Port(options ...PortOption) uint32 {
+func (f *Faker) Port(options ...PortOption) uint32 {
 	opts := portOptions{
 		min: 1,
 		max: 65_535,
