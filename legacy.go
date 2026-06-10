@@ -14,8 +14,6 @@ var (
 	globalMu    sync.Mutex
 )
 
-// Legacy package-level functions
-
 // Adjective generates a random adjective.
 func Adjective() string {
 	globalMu.Lock()

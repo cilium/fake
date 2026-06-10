@@ -1,55 +1,126 @@
-# fake - generate random data for testing and/or performance evaluation
+# fake - generate random networking data for testing and benchmarks
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/cilium/fake.svg)](https://pkg.go.dev/github.com/cilium/fake)
 [![CI](https://github.com/cilium/fake/actions/workflows/tests.yml/badge.svg)](https://github.com/cilium/fake/actions/workflows/tests.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/cilium/fake)](https://goreportcard.com/report/github.com/cilium/fake)
 
-Fake is a Go library and CLI to generate random data such as names, adjectives,
-IP addresses and so on.
+Generate realistic random IPs, MACs, ports, Kubernetes names, and [Hubble] network
+flows — with fine-grained control over every field.
 
-This repository contains three Go modules:
+## Quick start
 
-* [`github.com/cilium/fake`][1]: a library to generate generic random data which
-  can be useful to any project (e.g. `fake.Adjective()`, `fake.IP()`, ...).
-* [`github.com/cilium/fake/flow`][2]: a library to generate random [Hubble]
-  network flows and flow related data. This library is only relevant to projects
-  directly related to [Cilium] and/or [Hubble].
-* `github.com/cilium/fake/cmd`: a CLI to generate random data.
+```go
+import "github.com/cilium/fake"
 
-As opposed to most fake data generator Go libraries, a design philosophy of this
-library is to allow fine-grained control over generated data.
+f := fake.New()
 
-Let's illustrate this with an example. Instead of having separate functions to
-generate IPv4 and IPv6 addresses (e.g. `fake.IPv4()` and `fake.IPv6()`), there
-is a single `fake.IP()` function. However, this generator function, like most
-others, can take optional arguments. By default, i.e. when no option is
-specified (`fake.IP()`), it generates a random IP address which can be either v4
-or v6. However, when passing the option to generate IPv4 addresses only
-(`fake.IP(fake.WithIPv4())` option, only v4 addresses are generated. It is also
-possible to pass an option to specify a CIDR that randomly generated IP
-addresses must belong to (e.g. `fake.IP(fake.WithIPCIDR("10.0.0.0/8"))`).
+f.IP()                              // "10.244.3.87" or "fd00::a1b2:..."
+f.IP(fake.WithIPv4())               // always IPv4
+f.IP(fake.WithIPCIDR("10.0.0.0/8")) // always in 10.0.0.0/8
 
-Compared to other fake data generator Go libraries such as
-[`github.com/icrowley/fake`][icrowley/fake] or
-[`github.com/bxcodec/faker`][bxcodec/faker], this library does not (yet) support
-as many generators (contributions welcome!).
+f.MAC()                             // "3e:a7:01:cc:9f:12"
+f.Port()                            // 1–65535
+f.Port(fake.WithPortDynamic())      // 49152–65535
+```
 
-## Installing the CLI
+## Kubernetes generators
 
-Go needs to be installed. Then, from either the root directory or the `cmd`
-subdirectory, the `fake` binary can be compiled and installed via the `install`
-make target. E.g.
+```go
+f := fake.New()
 
-    make install
+f.K8sNamespace() // "kube-system" or "grafana-prod"
+f.K8sPodName()   // "relay-x8f2k"
+f.K8sNodeName()  // "brave-falcon"
+f.K8sLabels()    // ["app=hubble", "team=relay"]
+```
 
-By default, it installs the binary to `/usr/local/bin/fake`. The destination
-directory can be specified using the `BINDIR` environment variable, e.g.:
+## Generating Hubble flows
 
+The `flow` sub-package builds complete [`flowpb.Flow`][flowpb] protobufs suitable
+for testing Hubble pipelines, exporters, or UIs.
+
+```go
+import "github.com/cilium/fake/flow"
+
+ff := flow.NewFaker()
+
+// A fully random flow
+f := ff.NewFlow()
+
+// A dropped flow on a specific node
+f = ff.NewFlow(
+    flow.WithFlowVerdict(flowpb.Verdict_DROPPED),
+    flow.WithFlowDropReason(flowpb.DropReason_POLICY_DENIED),
+    flow.WithFlowNodeName("worker-03"),
+)
+```
+
+## Deterministic output
+
+Pass your own source to get reproducible sequences — useful for golden tests
+or benchmarks.
+
+```go
+import randv2 "math/rand/v2"
+
+seed := [32]byte{} // fixed seed
+f := fake.NewWithSource(randv2.NewChaCha8(seed))
+fmt.Println(f.IP()) // always the same
+```
+
+## Performance
+
+Each `Faker` instance is independent and lock-free. For parallel workloads,
+create one per goroutine:
+
+```go
+for range runtime.GOMAXPROCS(0) {
+    go func() {
+        f := fake.New()
+        for {
+            process(f.IP())
+        }
+    }()
+}
+```
+
+Package-level convenience functions (`fake.IP()`, `fake.Name()`, ...) use a
+global instance behind a mutex and are slower under contention.
+
+## CLI
+
+A small CLI wraps the library for shell scripts and quick iteration.
+
+```
+$ fake ip --ipv4 --count 3
+192.0.2.41
+10.128.7.200
+172.21.0.14
+
+$ fake flow | jq .verdict
+"FORWARDED"
+```
+
+Install with:
+
+    make install                    # → /usr/local/bin/fake
     BINDIR=~/.local/bin make install
+
+## Modules
+
+| Module | Purpose |
+|--------|---------|
+| [`github.com/cilium/fake`][1] | Generic generators (IPs, MACs, ports, names, K8s resources) |
+| [`github.com/cilium/fake/flow`][2] | [Hubble] flow protobuf generation |
+| `github.com/cilium/fake/cmd` | CLI binary |
+
+## Contributing
+
+Contributions are welcome! The options pattern makes it straightforward to add
+new constraints to existing generators or to introduce new ones.
 
 [1]: https://pkg.go.dev/github.com/cilium/fake
 [2]: https://pkg.go.dev/github.com/cilium/fake/flow
+[flowpb]: https://pkg.go.dev/github.com/cilium/cilium/api/v1/flow#Flow
 [Cilium]: https://github.com/cilium/cilium
 [Hubble]: https://github.com/cilium/hubble
-[icrowley/fake]: https://github.com/icrowley/fake
-[bxcodec/faker]: https://github.com/bxcodec/faker
