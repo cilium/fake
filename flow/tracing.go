@@ -35,8 +35,8 @@ func WithTraceIDs(traceIDs []string) TraceContextOption {
 	})
 }
 
-// TraceContext implements FlowFaker for flowfaker.
-func (f *flowfaker) TraceContext(options ...TraceContextOption) *flowpb.TraceContext {
+// TraceContext generates a random W3C trace context with a parent trace ID.
+func (f *FlowFaker) TraceContext(options ...TraceContextOption) *flowpb.TraceContext {
 	opts := traceContextOptions{}
 	for _, opt := range options {
 		opt.apply(&opts)
@@ -55,7 +55,7 @@ func (f *flowfaker) TraceContext(options ...TraceContextOption) *flowpb.TraceCon
 // fakeTraceID generates a fake trace ID. See the W3C Trace Context
 // specification for details:
 // https://www.w3.org/TR/trace-context/#trace-id
-func (f *flowfaker) fakeTraceID() string {
+func (f *FlowFaker) fakeTraceID() string {
 	var tid [traceIDLen]byte
 	for !isValidTraceID(tid[:]) {
 		_, _ = f.Read(tid[:])

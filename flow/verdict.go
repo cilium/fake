@@ -37,8 +37,9 @@ func WithVerdictForwardedProbability(probability float64) VerdictOption {
 	})
 }
 
-// Verdict implements FlowFaker for flowfaker.
-func (f *flowfaker) Verdict(options ...VerdictOption) flowpb.Verdict {
+// Verdict generates a random verdict, returning FORWARDED with the configured
+// probability.
+func (f *FlowFaker) Verdict(options ...VerdictOption) flowpb.Verdict {
 	opts := verdictOptions{
 		forwardProbability: 0.999,
 	}

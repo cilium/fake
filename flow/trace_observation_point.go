@@ -25,7 +25,7 @@ var allTraceObservationPoints = []flowpb.TraceObservationPoint{
 	flowpb.TraceObservationPoint_TO_CRYPTO,
 }
 
-// TraceObservationPoint implements FlowFaker for flowfaker.
-func (f *flowfaker) TraceObservationPoint() flowpb.TraceObservationPoint {
+// TraceObservationPoint generates a random trace observation point.
+func (f *FlowFaker) TraceObservationPoint() flowpb.TraceObservationPoint {
 	return allTraceObservationPoints[f.IntN(len(allTraceObservationPoints))]
 }

@@ -7,8 +7,8 @@ import (
 	flowpb "github.com/cilium/cilium/api/v1/flow"
 )
 
-// Policies implements FlowFaker for flowfaker.
-func (f *flowfaker) Policies() []*flowpb.Policy {
+// Policies generates a random slice of network policies (0 to 3 entries).
+func (f *FlowFaker) Policies() []*flowpb.Policy {
 	n := f.IntN(4)
 	policies := make([]*flowpb.Policy, n)
 	for i := range n {

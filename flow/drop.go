@@ -48,8 +48,9 @@ func WithDropReasonSubSet(dropReasons []flowpb.DropReason) DropReasonOption {
 	})
 }
 
-// DropReason implements FlowFaker for flowfaker.
-func (f *flowfaker) DropReason(options ...DropReasonOption) flowpb.DropReason {
+// DropReason generates a random drop reason, returning DROP_REASON_UNKNOWN with
+// the configured non-drop probability.
+func (f *FlowFaker) DropReason(options ...DropReasonOption) flowpb.DropReason {
 	// FIXME: evaluating all the options here for a single drop reason returned
 	// feels like we're paying a ton of overhead as soon as an option is given.
 	// Maybe consider moving this to the fake constructor, with maybe override

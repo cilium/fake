@@ -3,8 +3,8 @@
 
 package fake
 
-// K8sLabels implements the Faker interface for faker.
-func (f *faker) K8sLabels() []string {
+// K8sLabels generates a random set of Kubernetes labels.
+func (f *Faker) K8sLabels() []string {
 	// XXX: figure out if this is called often, we could init the slice with a
 	// len(labels) / 2 capacity.
 	var l []string
@@ -16,20 +16,20 @@ func (f *faker) K8sLabels() []string {
 	return l
 }
 
-// K8sNamespace implements the Faker interface for faker.
-func (f *faker) K8sNamespace() string {
+// K8sNamespace generates a random Kubernetes namespace name.
+func (f *Faker) K8sNamespace() string {
 	if f.IntN(2) == 0 {
 		return namespaces[f.IntN(len(namespaces))]
 	}
 	return join3(f.App(), "-", f.DeploymentTier())
 }
 
-// K8sNodeName implements the Faker interface for faker.
-func (f *faker) K8sNodeName() string {
+// K8sNodeName generates a random Kubernetes node name.
+func (f *Faker) K8sNodeName() string {
 	return join3(f.Adjective(), "-", f.Noun())
 }
 
-// K8sPodName implements the Faker interface for faker.
-func (f *faker) K8sPodName() string {
+// K8sPodName generates a random Kubernetes pod name.
+func (f *Faker) K8sPodName() string {
 	return join3(f.App(), "-", f.AlphaNum(5))
 }

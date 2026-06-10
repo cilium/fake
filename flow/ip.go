@@ -38,8 +38,8 @@ func WithSourceNATProbability(probability float64) IPOption {
 	})
 }
 
-// IP implements FlowFaker for flowfaker.
-func (f *flowfaker) IP(options ...IPOption) *flowpb.IP {
+// IP generates a random flow IP field with source and destination addresses.
+func (f *FlowFaker) IP(options ...IPOption) *flowpb.IP {
 	opts := ipOptions{}
 	for _, opt := range options {
 		opt.apply(&opts)
