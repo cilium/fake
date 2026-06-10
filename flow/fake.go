@@ -20,9 +20,9 @@ func NewFaker() *FlowFaker {
 	}
 }
 
-// NewWithSource creates a new Faker using the given random source. Useful to
-// control the faker output, e.g. for testing.
-func NewWithSource(src fake.RandSourceReader) *FlowFaker {
+// NewFakerWithSource creates a new Faker using the given random source. Useful
+// to control the faker output, e.g. for testing.
+func NewFakerWithSource(src fake.RandSourceReader) *FlowFaker {
 	return &FlowFaker{
 		Faker: fake.NewWithSource(src),
 	}
