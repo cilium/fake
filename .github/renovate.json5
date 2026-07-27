@@ -56,6 +56,23 @@
       ],
     },
     {
+      // The replace directives in our go.mod files are copied verbatim from
+      // github.com/cilium/cilium and must be kept in sync with it by hand.
+      // Letting Renovate bump them on its own produces invalid go.mod files:
+      // it writes a bare commit hash instead of a pseudo-version, and it may
+      // point at a revision where the fork has moved to another major version
+      // than the one being replaced.
+      matchFileNames: [
+        'go.mod',
+        'cmd/go.mod',
+        'flow/go.mod',
+      ],
+      matchDepTypes: [
+        'replace',
+      ],
+      enabled: false,
+    },
+    {
       groupName: 'all github action dependencies',
       matchFileNames: [
         '.github/workflows/**',
