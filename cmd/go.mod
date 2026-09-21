@@ -3,7 +3,7 @@ module github.com/cilium/fake/cmd
 go 1.26.0
 
 require (
-	github.com/cilium/cilium v1.20.1
+	github.com/cilium/cilium v1.20.2
 	github.com/cilium/fake v0.7.0
 	github.com/cilium/fake/flow v0.7.0
 	github.com/spf13/cobra v1.10.2
@@ -18,7 +18,7 @@ require (
 	github.com/cilium/ebpf v0.22.0 // indirect
 	github.com/cilium/hive v1.0.4 // indirect
 	github.com/cilium/lumberjack/v2 v2.4.2 // indirect
-	github.com/cilium/statedb v0.8.3 // indirect
+	github.com/cilium/statedb v0.8.4 // indirect
 	github.com/cilium/stream v0.0.1 // indirect
 	github.com/cloudflare/cfssl v1.6.5 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
@@ -117,10 +117,10 @@ require (
 	google.golang.org/grpc v1.83.2 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.13.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
-	k8s.io/api v0.36.3 // indirect
-	k8s.io/apiextensions-apiserver v0.36.3 // indirect
-	k8s.io/apimachinery v0.36.3 // indirect
-	k8s.io/client-go v0.36.3 // indirect
+	k8s.io/api v0.36.4 // indirect
+	k8s.io/apiextensions-apiserver v0.36.4 // indirect
+	k8s.io/apimachinery v0.36.4 // indirect
+	k8s.io/client-go v0.36.4 // indirect
 	k8s.io/klog/v2 v2.140.0 // indirect
 	k8s.io/kube-openapi v0.0.0-20260501160325-927ab1f70cd6 // indirect
 	k8s.io/utils v0.0.0-20260707023825-cf1189d6abe3 // indirect
