@@ -111,6 +111,9 @@ func runFlows(p *printer.Printer) error {
 	if opts.count < 1 {
 		return errors.New("--count must be at least 1")
 	}
+	if opts.nodesCount < 1 {
+		return errors.New("--nodes-count must be at least 1")
+	}
 	if !until.After(since) {
 		return errors.New("--since must come before --until")
 	}
